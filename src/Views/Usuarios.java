@@ -16,6 +16,8 @@ public class Usuarios extends javax.swing.JInternalFrame {
      */
     public Usuarios() {
         initComponents();
+        this.setTitle("Usuarios");
+
     }
 
     /**

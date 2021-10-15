@@ -15,6 +15,8 @@ public class Pagos extends javax.swing.JInternalFrame {
     /** Creates new form Pagos */
     public Pagos() {
         initComponents();
+        this.setTitle("Pagos");
+
     }
 
     /** This method is called from within the constructor to

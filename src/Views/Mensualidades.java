@@ -16,6 +16,8 @@ public class Mensualidades extends javax.swing.JInternalFrame {
      */
     public Mensualidades() {
         initComponents();
+        this.setTitle("Mensualidades");
+
     }
 
     /**

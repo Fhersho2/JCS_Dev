@@ -54,13 +54,13 @@ public class Home extends javax.swing.JFrame {
         usertypeLbl = new javax.swing.JLabel();
         LogOut = new javax.swing.JButton();
         PaneNavBar = new javax.swing.JPanel();
-        btn_periodos = new javax.swing.JButton();
         btn_Alumnos = new javax.swing.JButton();
         btn_Usuarios = new javax.swing.JButton();
         btn_Servicios = new javax.swing.JButton();
         btn_pagos = new javax.swing.JButton();
         btn_Mensualidades = new javax.swing.JButton();
         btn_reportes = new javax.swing.JButton();
+        btn_periodos = new javax.swing.JButton();
         escritorio = new javax.swing.JDesktopPane();
 
         jButton2.setText("jButton2");
@@ -101,27 +101,6 @@ public class Home extends javax.swing.JFrame {
         LogOut.setRolloverEnabled(false);
 
         PaneNavBar.setBackground(new java.awt.Color(255, 255, 255));
-
-        btn_periodos.setBackground(new java.awt.Color(255, 255, 255));
-        btn_periodos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btn_periodos.setForeground(new java.awt.Color(38, 70, 83));
-        btn_periodos.setText("Periodos");
-        btn_periodos.setBorderPainted(false);
-        btn_periodos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_periodos.setFocusPainted(false);
-        btn_periodos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_periodosMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_periodosMouseExited(evt);
-            }
-        });
-        btn_periodos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_periodosActionPerformed(evt);
-            }
-        });
 
         btn_Alumnos.setBackground(new java.awt.Color(255, 255, 255));
         btn_Alumnos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -249,6 +228,27 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btn_periodos.setBackground(new java.awt.Color(255, 255, 255));
+        btn_periodos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btn_periodos.setForeground(new java.awt.Color(38, 70, 83));
+        btn_periodos.setText("Periodos");
+        btn_periodos.setBorderPainted(false);
+        btn_periodos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_periodos.setFocusPainted(false);
+        btn_periodos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_periodosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_periodosMouseExited(evt);
+            }
+        });
+        btn_periodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_periodosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PaneNavBarLayout = new javax.swing.GroupLayout(PaneNavBar);
         PaneNavBar.setLayout(PaneNavBarLayout);
         PaneNavBarLayout.setHorizontalGroup(
@@ -264,21 +264,21 @@ public class Home extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(btn_Mensualidades, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
                 .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(1, 1, 1)
+                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         PaneNavBarLayout.setVerticalGroup(
             PaneNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PaneNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Alumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Servicios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Mensualidades, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout InformationUserLayout = new javax.swing.GroupLayout(InformationUser);

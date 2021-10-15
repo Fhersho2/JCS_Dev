@@ -16,6 +16,8 @@ public class Reportes extends javax.swing.JInternalFrame {
      */
     public Reportes() {
         initComponents();
+        this.setTitle("Reportes");
+
     }
 
     /**
