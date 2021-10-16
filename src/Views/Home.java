@@ -3,7 +3,8 @@ package Views;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JInternalFrame;
+//import javax.swing.JInternalFrame;
+import BAL.BalUsuarios;
 
 
 /**
@@ -19,6 +20,7 @@ public class Home extends javax.swing.JFrame {
     Pagos viewPagos = new Pagos();
     Usuarios viewUsuarios = new Usuarios();
     Mensualidades viewMensualidades = new Mensualidades();
+    BalUsuarios user = new BalUsuarios();
     
     
     
@@ -31,7 +33,13 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Sistema Contable Preparatoria JCS");
         setLocationRelativeTo(null);
-        this.setExtendedState(MAXIMIZED_BOTH);
+        lblAdmin.setText(user.username);
+        lblFullName.setText(user.fullname);
+        lblTipoUsuario.setText(user.admintype);
+        this.setExtendedState(MAXIMIZED_BOTH); 
+    }
+    
+    public Home(BalUsuarios user){
         
     }
 
@@ -49,9 +57,9 @@ public class Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        adminLbl = new javax.swing.JLabel();
-        fullnameLbl = new javax.swing.JLabel();
-        usertypeLbl = new javax.swing.JLabel();
+        lblAdmin = new javax.swing.JLabel();
+        lblFullName = new javax.swing.JLabel();
+        lblTipoUsuario = new javax.swing.JLabel();
         LogOut = new javax.swing.JButton();
         PaneNavBar = new javax.swing.JPanel();
         btn_Alumnos = new javax.swing.JButton();
@@ -81,14 +89,14 @@ public class Home extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tipo:");
 
-        adminLbl.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        adminLbl.setForeground(new java.awt.Color(255, 255, 255));
+        lblAdmin.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblAdmin.setForeground(new java.awt.Color(255, 255, 255));
 
-        fullnameLbl.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        fullnameLbl.setForeground(new java.awt.Color(255, 255, 255));
+        lblFullName.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblFullName.setForeground(new java.awt.Color(255, 255, 255));
 
-        usertypeLbl.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        usertypeLbl.setForeground(new java.awt.Color(255, 255, 255));
+        lblTipoUsuario.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblTipoUsuario.setForeground(new java.awt.Color(255, 255, 255));
 
         LogOut.setBackground(new java.awt.Color(42, 157, 143));
         LogOut.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -289,15 +297,15 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adminLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fullnameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usertypeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LogOut)
                 .addGap(12, 12, 12))
@@ -309,11 +317,11 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(adminLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fullnameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(usertypeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTipoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PaneNavBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -600,7 +608,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel InformationUser;
     private javax.swing.JButton LogOut;
     private javax.swing.JPanel PaneNavBar;
-    private javax.swing.JLabel adminLbl;
     private javax.swing.JButton btn_Alumnos;
     private javax.swing.JButton btn_Mensualidades;
     private javax.swing.JButton btn_Servicios;
@@ -609,11 +616,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btn_periodos;
     private javax.swing.JButton btn_reportes;
     public static javax.swing.JDesktopPane escritorio;
-    private javax.swing.JLabel fullnameLbl;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel usertypeLbl;
+    public javax.swing.JLabel lblAdmin;
+    private javax.swing.JLabel lblFullName;
+    private javax.swing.JLabel lblTipoUsuario;
     // End of variables declaration//GEN-END:variables
 }

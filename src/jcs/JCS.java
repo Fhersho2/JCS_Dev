@@ -1,27 +1,25 @@
 package jcs;
 
-import DAL.Conexion;
-import java.sql.*;
-import Views.Home;
-
+import Views.Login;
 
 public class JCS {
 
     public static void main(String[] args)  {
         // TODO code application logic here
-//        Conexion conn = new Conexion();
+// 
 //        try {
 //            if (conn.Open() != null)
 //            {
-//                JOptionPane.showMessageDialog(null, "Conectado Correctamente");
+//                System.out.println("Conectado Correctamente");
 //            }else{
-//                JOptionPane.showMessageDialog(null,"Mensaje", "Error al conectar al servidor", JOptionPane.ERROR_MESSAGE);
+//                System.out.println("Error al conectar al servidor");
 //            }
 //        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(JCS.class.getName()).log(Level.SEVERE, null, ex);
+//            System.out.println(ex);
+////            Logger.getLogger(JCS.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-        Home vista = new Home();
+        Login vista = new Login();
         vista.setVisible(true);
     }
 

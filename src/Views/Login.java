@@ -5,8 +5,10 @@
  */
 package Views;
 
+import BAL.BalUsuarios;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -16,7 +18,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author natsu-terckoer
  */
 public class Login extends javax.swing.JFrame {
-
+    
+    
     /**
      * Creates new form Login
      */
@@ -139,6 +142,11 @@ public class Login extends javax.swing.JFrame {
                 btnLoginMouseExited(evt);
             }
         });
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -212,6 +220,25 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setForeground(new java.awt.Color(255,255,255));
 
     }//GEN-LAST:event_btnLoginMouseExited
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        BalUsuarios user = new BalUsuarios();
+        if(!txtUsuario.equals("") && !txtPass.equals("")){
+            user.setUsername(txtUsuario.getText());
+            user.setPass(txtPass.getText());
+            if(user.validarUsuario(user)){
+                this.dispose();
+                Home n = new Home();
+                n.setVisible(true);
+                n.setExtendedState(MAXIMIZED_BOTH);
+            }else{
+                JOptionPane.showMessageDialog(null,"Datos Incorrectos");
+            }
+        } else{
+            JOptionPane.showMessageDialog(null,"Ingresa los datos necesarios");
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
