@@ -6,9 +6,12 @@
 package BAL;
 
 import DAL.Conexion;
+import java.awt.List;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class BalUsuarios {
 
@@ -67,8 +70,9 @@ public class BalUsuarios {
             procedure.execute();
             final ResultSet rs = procedure.getResultSet();
             if (rs.next()) {
-                System.out.println(rs.getString("fullname"));
-               
+                setUsername(rs.getString("username"));
+                setFullname(rs.getString("fullname"));
+                setAdmintype(rs.getString("admintype"));
                 return true;
             } else {
                 return false;
@@ -79,5 +83,76 @@ public class BalUsuarios {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public ArrayList<BalUsuarios> listarUsuarios() {
+        ResultSet rs;
+        ArrayList<BalUsuarios> usuarios = new ArrayList<>();
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call listarUsuarios()}");
+            procedure.execute();
+            rs = procedure.getResultSet();
+            while(rs.next()){
+                BalUsuarios user = new BalUsuarios();
+                user.adminID = Integer.parseInt(rs.getString("adminID"));
+                user.fullname = rs.getString("fullname");
+                user.username = rs.getString("username");
+                user.admintype = rs.getString("admintype");
+                usuarios.add(user);
+//                setFullname(rs.getString("fullname"));
+//                setAdmintype(rs.getString("admintype"));
+            }
+            procedure.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usuarios;
+    }
+    
+    public void agregarUsuario(BalUsuarios usuario){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call agregarUsuarios(?, ?, ?, ?)}");
+            procedure.setString(1, usuario.getFullname());
+            procedure.setString(2, usuario.getUsername());
+            procedure.setString(3, usuario.getPass());
+            procedure.setString(4, usuario.getAdmintype());
+            procedure.executeQuery();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Usuario agregado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void modificarUsuario(BalUsuarios usuario){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call jcsdb.modificarUsuario(?, ?, ?, ?, ?)}");
+            procedure.setInt(1, usuario.getAdminID());
+            procedure.setString(2, usuario.getFullname());
+            procedure.setString(3, usuario.getUsername());
+            procedure.setString(4, usuario.getPass());
+            procedure.setString(5, usuario.getAdmintype());
+            procedure.executeUpdate();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Usuario Modificado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarUsuario(int ID){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call eliminarUsuario(?)}");
+            procedure.setInt(1, ID);
+            procedure.execute();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Usuario Eliminado con exito");
+        } catch (SQLException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

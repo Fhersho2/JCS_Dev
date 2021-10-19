@@ -5,14 +5,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 //import javax.swing.JInternalFrame;
 import BAL.BalUsuarios;
-
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author natsu
  */
 public class Home extends javax.swing.JFrame {
-    
+
     Alumnos ViewAlumnos = new Alumnos();
     Reportes viewReportes = new Reportes();
     Servicios viewServicios = new Servicios();
@@ -20,11 +20,7 @@ public class Home extends javax.swing.JFrame {
     Pagos viewPagos = new Pagos();
     Usuarios viewUsuarios = new Usuarios();
     Mensualidades viewMensualidades = new Mensualidades();
-    BalUsuarios user = new BalUsuarios();
-    
-    
-    
-    
+
     //Servicios ViewServices = new Servicios();
     /**
      * Creates new form Home
@@ -33,14 +29,17 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Sistema Contable Preparatoria JCS");
         setLocationRelativeTo(null);
-        lblAdmin.setText(user.username);
-        lblFullName.setText(user.fullname);
-        lblTipoUsuario.setText(user.admintype);
-        this.setExtendedState(MAXIMIZED_BOTH); 
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
-    
-    public Home(BalUsuarios user){
-        
+
+    public Home(BalUsuarios usuario) {
+        initComponents();
+        this.setTitle("Sistema Contable Preparatoria JCS");
+        setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
+        lblAdmin.setText(usuario.username);
+        lblFullName.setText(usuario.fullname);
+        lblTipoUsuario.setText(usuario.admintype);
     }
 
     /**
@@ -107,6 +106,11 @@ public class Home extends javax.swing.JFrame {
         LogOut.setFocusPainted(false);
         LogOut.setRequestFocusEnabled(false);
         LogOut.setRolloverEnabled(false);
+        LogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutActionPerformed(evt);
+            }
+        });
 
         PaneNavBar.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -361,127 +365,186 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_periodosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_periodosMouseEntered
         // TODO add your handling code here:
-        btn_periodos.setBackground(new java.awt.Color(38,70,83));
-        btn_periodos.setForeground(new java.awt.Color(255,255,255));
-        
+        btn_periodos.setBackground(new java.awt.Color(38, 70, 83));
+        btn_periodos.setForeground(new java.awt.Color(255, 255, 255));
+
     }//GEN-LAST:event_btn_periodosMouseEntered
 
     private void btn_periodosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_periodosMouseExited
         // TODO add your handling code here:
-        btn_periodos.setBackground(new java.awt.Color(255,255,255));
-        btn_periodos.setForeground(new java.awt.Color(0,0,0));
+        btn_periodos.setBackground(new java.awt.Color(255, 255, 255));
+        btn_periodos.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_periodosMouseExited
 
     private void btn_AlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_AlumnosMouseEntered
         // TODO add your handling code here:
-        btn_Alumnos.setBackground(new java.awt.Color(38,70,83));
-        btn_Alumnos.setForeground(new java.awt.Color(255,255,255));
+        btn_Alumnos.setBackground(new java.awt.Color(38, 70, 83));
+        btn_Alumnos.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_AlumnosMouseEntered
 
     private void btn_AlumnosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_AlumnosMouseExited
         // TODO add your handling code here:
-        btn_Alumnos.setBackground(new java.awt.Color(255,255,255));
-        btn_Alumnos.setForeground(new java.awt.Color(0,0,0));
+        btn_Alumnos.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Alumnos.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_AlumnosMouseExited
 
     private void btn_periodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_periodosActionPerformed
         // TODO add your handling code here:
-          if (!viewPeriodos.isShowing()) {
-            escritorio.add(viewPeriodos);
-            viewPeriodos.show();
-            escritorio.remove(ViewAlumnos);
-            escritorio.remove(viewUsuarios);
-            escritorio.remove(viewServicios);
-            escritorio.remove(viewReportes);
-            escritorio.remove(viewPagos);
-            escritorio.remove(viewMensualidades);
-            escritorio.repaint();
-             try {
-                viewPeriodos.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        if (!lblTipoUsuario.getText().equals("Cajero")) {
+            if (!viewPeriodos.isShowing()) {
+                escritorio.add(viewPeriodos);
+                viewPeriodos.show();
+                escritorio.remove(ViewAlumnos);
+                escritorio.remove(viewUsuarios);
+                escritorio.remove(viewServicios);
+                escritorio.remove(viewReportes);
+                escritorio.remove(viewPagos);
+                escritorio.remove(viewMensualidades);
+                escritorio.repaint();
+                try {
+                    viewPeriodos.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes Acceso a esta vista");
         }
+//        if (!viewPeriodos.isShowing()) {
+//            escritorio.add(viewPeriodos);
+//            viewPeriodos.show();
+//            escritorio.remove(ViewAlumnos);
+//            escritorio.remove(viewUsuarios);
+//            escritorio.remove(viewServicios);
+//            escritorio.remove(viewReportes);
+//            escritorio.remove(viewPagos);
+//            escritorio.remove(viewMensualidades);
+//            escritorio.repaint();
+//            try {
+//                viewPeriodos.setMaximum(true);
+//            } catch (PropertyVetoException ex) {
+//                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_btn_periodosActionPerformed
 
     private void btn_UsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_UsuariosMouseEntered
         // TODO add your handling code here:
-        btn_Usuarios.setBackground(new java.awt.Color(38,70,83));
-        btn_Usuarios.setForeground(new java.awt.Color(255,255,255));
+        btn_Usuarios.setBackground(new java.awt.Color(38, 70, 83));
+        btn_Usuarios.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_UsuariosMouseEntered
 
     private void btn_UsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_UsuariosMouseExited
         // TODO add your handling code here:
-        btn_Usuarios.setBackground(new java.awt.Color(255,255,255));
-        btn_Usuarios.setForeground(new java.awt.Color(0,0,0));
+        btn_Usuarios.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Usuarios.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_UsuariosMouseExited
 
     private void btn_UsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UsuariosActionPerformed
-        
-        if (!viewUsuarios.isShowing()) {
-            escritorio.add(viewUsuarios);
-            viewUsuarios.show();
-            escritorio.remove(ViewAlumnos);
-            escritorio.remove(viewPeriodos);
-            escritorio.remove(viewServicios);
-            escritorio.remove(viewReportes);
-            escritorio.remove(viewPagos);
-            escritorio.remove(viewMensualidades);
-            escritorio.repaint();
-             try {
-                viewUsuarios.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        if (!lblTipoUsuario.getText().equals("Cajero")) {
+            if (!viewUsuarios.isShowing()) {
+                escritorio.add(viewUsuarios);
+                viewUsuarios.show();
+                escritorio.remove(ViewAlumnos);
+                escritorio.remove(viewPeriodos);
+                escritorio.remove(viewServicios);
+                escritorio.remove(viewReportes);
+                escritorio.remove(viewPagos);
+                escritorio.remove(viewMensualidades);
+                escritorio.repaint();
+                try {
+                    viewUsuarios.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }    
+        } else {
+            JOptionPane.showMessageDialog(null, "No tienes Acceso a esta vista");
+        }
+//        if (!viewUsuarios.isShowing()) {
+//            escritorio.add(viewUsuarios);
+//            viewUsuarios.show();
+//            escritorio.remove(ViewAlumnos);
+//            escritorio.remove(viewPeriodos);
+//            escritorio.remove(viewServicios);
+//            escritorio.remove(viewReportes);
+//            escritorio.remove(viewPagos);
+//            escritorio.remove(viewMensualidades);
+//            escritorio.repaint();
+//            try {
+//                viewUsuarios.setMaximum(true);
+//            } catch (PropertyVetoException ex) {
+//                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_btn_UsuariosActionPerformed
 
     private void btn_ServiciosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ServiciosMouseEntered
         // TODO add your handling code here:
-        btn_Servicios.setBackground(new java.awt.Color(38,70,83));
-        btn_Servicios.setForeground(new java.awt.Color(255,255,255));
+        btn_Servicios.setBackground(new java.awt.Color(38, 70, 83));
+        btn_Servicios.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_ServiciosMouseEntered
 
     private void btn_ServiciosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ServiciosMouseExited
         // TODO add your handling code here:
-        btn_Servicios.setBackground(new java.awt.Color(255,255,255));
-        btn_Servicios.setForeground(new java.awt.Color(0,0,0));
+        btn_Servicios.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Servicios.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_ServiciosMouseExited
 
     private void btn_ServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ServiciosActionPerformed
-     if (!viewServicios.isShowing()) {
-            escritorio.add(viewServicios);
-            viewServicios.show();
-            escritorio.remove(ViewAlumnos);
-            escritorio.remove(viewUsuarios);
-            escritorio.remove(viewPeriodos);
-            escritorio.remove(viewReportes);
-            escritorio.remove(viewPagos);
-            escritorio.remove(viewMensualidades);
-            escritorio.repaint();
-             try {
-                viewServicios.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        if (!lblTipoUsuario.getText().equals("Cajero")) {
+            if (!viewServicios.isShowing()) {
+                escritorio.add(viewServicios);
+                viewServicios.show();
+                escritorio.remove(ViewAlumnos);
+                escritorio.remove(viewUsuarios);
+                escritorio.remove(viewPeriodos);
+                escritorio.remove(viewReportes);
+                escritorio.remove(viewPagos);
+                escritorio.remove(viewMensualidades);
+                escritorio.repaint();
+                try {
+                    viewServicios.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }                       
+        } else {
+            JOptionPane.showMessageDialog(null, "No tienes Acceso a esta vista");
+        }
+//        if (!viewServicios.isShowing()) {
+//            escritorio.add(viewServicios);
+//            viewServicios.show();
+//            escritorio.remove(ViewAlumnos);
+//            escritorio.remove(viewUsuarios);
+//            escritorio.remove(viewPeriodos);
+//            escritorio.remove(viewReportes);
+//            escritorio.remove(viewPagos);
+//            escritorio.remove(viewMensualidades);
+//            escritorio.repaint();
+//            try {
+//                viewServicios.setMaximum(true);
+//            } catch (PropertyVetoException ex) {
+//                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_btn_ServiciosActionPerformed
 
     private void btn_pagosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_pagosMouseEntered
         // TODO add your handling code here:
-        btn_pagos.setBackground(new java.awt.Color(38,70,83));
-        btn_pagos.setForeground(new java.awt.Color(255,255,255));
+        btn_pagos.setBackground(new java.awt.Color(38, 70, 83));
+        btn_pagos.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_pagosMouseEntered
 
     private void btn_pagosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_pagosMouseExited
         // TODO add your handling code here:
-        btn_pagos.setBackground(new java.awt.Color(255,255,255));
-        btn_pagos.setForeground(new java.awt.Color(0,0,0));
+        btn_pagos.setBackground(new java.awt.Color(255, 255, 255));
+        btn_pagos.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_pagosMouseExited
 
     private void btn_pagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagosActionPerformed
         // TODO add your handling code here:
-         if (!viewPagos.isShowing()) {
+        if (!viewPagos.isShowing()) {
             escritorio.add(viewPagos);
             viewPagos.show();
             escritorio.remove(ViewAlumnos);
@@ -491,25 +554,25 @@ public class Home extends javax.swing.JFrame {
             escritorio.remove(viewPeriodos);
             escritorio.remove(viewMensualidades);
             escritorio.repaint();
-             try {
+            try {
                 viewPagos.setMaximum(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }    
-        
+        }
+
     }//GEN-LAST:event_btn_pagosActionPerformed
 
     private void btn_MensualidadesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_MensualidadesMouseEntered
         // TODO add your handling code here:
-        btn_Mensualidades.setBackground(new java.awt.Color(38,70,83));
-        btn_Mensualidades.setForeground(new java.awt.Color(255,255,255));
+        btn_Mensualidades.setBackground(new java.awt.Color(38, 70, 83));
+        btn_Mensualidades.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_MensualidadesMouseEntered
 
     private void btn_MensualidadesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_MensualidadesMouseExited
         // TODO add your handling code here:
-        btn_Mensualidades.setBackground(new java.awt.Color(255,255,255));
-        btn_Mensualidades.setForeground(new java.awt.Color(0,0,0));
+        btn_Mensualidades.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Mensualidades.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_MensualidadesMouseExited
 
     private void btn_MensualidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MensualidadesActionPerformed
@@ -524,52 +587,75 @@ public class Home extends javax.swing.JFrame {
             escritorio.remove(viewReportes);
             escritorio.remove(viewPagos);
             escritorio.repaint();
-             try {
+            try {
                 viewMensualidades.setMaximum(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
+        }
     }//GEN-LAST:event_btn_MensualidadesActionPerformed
 
     private void btn_AlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AlumnosActionPerformed
         // TODO add your handling code here:
-        if (!ViewAlumnos.isShowing()) {
-            escritorio.add(ViewAlumnos);
-            ViewAlumnos.show();
-            escritorio.remove(viewPeriodos);
-            escritorio.remove(viewUsuarios);
-            escritorio.remove(viewServicios);
-            escritorio.remove(viewReportes);
-            escritorio.remove(viewPagos);
-            escritorio.remove(viewMensualidades);
-            try {
-                ViewAlumnos.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (!lblTipoUsuario.getText().equals("Cajero")) {
+            if (!ViewAlumnos.isShowing()) {
+                escritorio.add(ViewAlumnos);
+                ViewAlumnos.show();
+                escritorio.remove(viewPeriodos);
+                escritorio.remove(viewUsuarios);
+                escritorio.remove(viewServicios);
+                escritorio.remove(viewReportes);
+                escritorio.remove(viewPagos);
+                escritorio.remove(viewMensualidades);
+                try {
+                    ViewAlumnos.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
 //            Escritorio.remove(servicio);
 //            Escritorio.remove(cita);
 //            Escritorio.remove(gestion);
-            escritorio.repaint();
-        }                      
+                escritorio.repaint();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No tienes Acceso a esta vista");
+        }
+//        if (!ViewAlumnos.isShowing()) {
+//            escritorio.add(ViewAlumnos);
+//            ViewAlumnos.show();
+//            escritorio.remove(viewPeriodos);
+//            escritorio.remove(viewUsuarios);
+//            escritorio.remove(viewServicios);
+//            escritorio.remove(viewReportes);
+//            escritorio.remove(viewPagos);
+//            escritorio.remove(viewMensualidades);
+//            try {
+//                ViewAlumnos.setMaximum(true);
+//            } catch (PropertyVetoException ex) {
+//                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+////            Escritorio.remove(servicio);
+////            Escritorio.remove(cita);
+////            Escritorio.remove(gestion);
+//            escritorio.repaint();
+//        }                      
     }//GEN-LAST:event_btn_AlumnosActionPerformed
 
     private void btn_reportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_reportesMouseEntered
         // TODO add your handling code here:
-        btn_reportes.setBackground(new java.awt.Color(38,70,83));
-        btn_reportes.setForeground(new java.awt.Color(255,255,255));
+        btn_reportes.setBackground(new java.awt.Color(38, 70, 83));
+        btn_reportes.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_reportesMouseEntered
 
     private void btn_reportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_reportesMouseExited
         // TODO add your handling code here:
-        btn_reportes.setBackground(new java.awt.Color(255,255,255));
-        btn_reportes.setForeground(new java.awt.Color(0,0,0));
+        btn_reportes.setBackground(new java.awt.Color(255, 255, 255));
+        btn_reportes.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_reportesMouseExited
 
     private void btn_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportesActionPerformed
         // TODO add your handling code here:
-         if (!viewReportes.isShowing()) {
+        if (!viewReportes.isShowing()) {
             escritorio.add(viewReportes);
             viewReportes.show();
             escritorio.remove(ViewAlumnos);
@@ -579,7 +665,7 @@ public class Home extends javax.swing.JFrame {
             escritorio.remove(viewPagos);
             escritorio.remove(viewMensualidades);
             escritorio.repaint();
-             try {
+            try {
                 viewReportes.setMaximum(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
@@ -587,21 +673,26 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_reportesActionPerformed
 
+    private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        Login vista = new Login();
+        vista.setVisible(true);
+    }//GEN-LAST:event_LogOutActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-      
+
         /* Create and display the form */
-        
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Home().setVisible(true);
-                
+
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

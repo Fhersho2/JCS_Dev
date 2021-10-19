@@ -229,7 +229,7 @@ public class Login extends javax.swing.JFrame {
             user.setPass(txtPass.getText());
             if(user.validarUsuario(user)){
                 this.dispose();
-                Home n = new Home();
+                Home n = new Home(user);
                 n.setVisible(true);
                 n.setExtendedState(MAXIMIZED_BOTH);
             }else{
