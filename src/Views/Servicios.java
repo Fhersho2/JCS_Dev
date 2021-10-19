@@ -5,11 +5,18 @@
  */
 package Views;
 
+import BAL.BalServicios;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Terckoer
  */
 public class Servicios extends javax.swing.JInternalFrame {
+
+    BalServicios control = new BalServicios();
 
     /**
      * Creates new form Servicios
@@ -18,6 +25,76 @@ public class Servicios extends javax.swing.JInternalFrame {
         initComponents();
         this.setTitle("Servicios");
 
+    }
+
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int i, int i1) {
+            return false; //To change body of generated methods, choose Tools | Templates.
+        }
+    };
+
+    public void actualizarDatos() {
+        model.setNumRows(0);
+        model.setColumnCount(0);
+        model.addColumn("Referencia");
+        model.addColumn("NombreServicio");
+        model.addColumn("Costo");
+        tblServicios.getTableHeader().setReorderingAllowed(false);
+        ArrayList<BalServicios> modelo;
+        modelo = control.listarServicios();
+        try {
+//            //dato.last();
+            int cantidad = modelo.size();
+            model.setNumRows(cantidad);
+            int x = 0;
+            Iterator<BalServicios> itrUsuarios = modelo.iterator();
+            while (itrUsuarios.hasNext()) {
+                BalServicios servicio = itrUsuarios.next();
+                System.out.println(servicio.IDServicio);
+                model.setValueAt(servicio.IDServicio, x, 0);
+                model.setValueAt(servicio.NombreServicio, x, 1);
+                model.setValueAt(servicio.CostoServicio, x, 2);
+                x++;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        tblServicios.setModel(model);
+    }
+
+    public void Limpiar() {
+        txtIDServicio.setText("");
+        txtServicioCosto.setText("");
+        txtServicioNombre.setText("");
+    }
+
+    public void Actions() {
+        if (!txtServicioNombre.getText().equals("") && !txtServicioCosto.getText().equals("")) {
+            if (cboOpciones.getSelectedItem().equals("Agregar") && txtIDServicio.getText().equals("")) {
+                BalServicios servicio = new BalServicios();
+                servicio.setNombreServicio(txtServicioNombre.getText());
+                servicio.setCostoServicio(txtServicioCosto.getText());
+                servicio.agregarServicio(servicio);
+                actualizarDatos();
+                Limpiar();
+            } else if (cboOpciones.getSelectedItem().equals("Modificar") && !txtIDServicio.getText().equals("")) {
+                BalServicios servicio = new BalServicios();
+                servicio.setIDServicio(Integer.parseInt(txtIDServicio.getText()));
+                servicio.setNombreServicio(txtServicioNombre.getText());
+                servicio.setCostoServicio(txtServicioCosto.getText());
+                servicio.modificarServicio(servicio);
+                actualizarDatos();
+                Limpiar();
+            } else {
+                BalServicios servicio = new BalServicios();
+                servicio.eliminarServicio(Integer.parseInt(txtIDServicio.getText()));
+                actualizarDatos();
+                Limpiar();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Tiene Campos vacios");
+        }
     }
 
     /**
@@ -30,20 +107,154 @@ public class Servicios extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtIDServicio = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtServicioNombre = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtServicioCosto = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblServicios = new javax.swing.JTable();
+        cboOpciones = new javax.swing.JComboBox<>();
+        btnEjecutar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(42, 157, 143));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("IDServicio:");
+
+        txtIDServicio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtIDServicio.setEnabled(false);
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Nombre:");
+
+        txtServicioNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Costo:");
+
+        txtServicioCosto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtServicioCosto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtServicioCostoKeyTyped(evt);
+            }
+        });
+
+        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblServicios.setRowHeight(35);
+        tblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblServiciosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblServicios);
+
+        cboOpciones.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cboOpciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Modificar", "Eliminar" }));
+        cboOpciones.setRequestFocusEnabled(false);
+        cboOpciones.setVerifyInputWhenFocusTarget(false);
+
+        btnEjecutar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEjecutar.setText("Ejecutar");
+        btnEjecutar.setFocusPainted(false);
+        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjecutarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setBorderPainted(false);
+        btnLimpiar.setRequestFocusEnabled(false);
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 455, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtIDServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtServicioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtServicioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cboOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 294, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtIDServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtServicioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtServicioCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -60,8 +271,56 @@ public class Servicios extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        // TODO add your handling code here:
+        actualizarDatos();
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        // TODO add your handling code here:
+        Actions();
+    }//GEN-LAST:event_btnEjecutarActionPerformed
+
+    private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
+        // TODO add your handling code here:
+        //String tipo = null;
+        int fila = tblServicios.getSelectedRow();
+        if (fila == -1) {
+        } else {
+            txtIDServicio.setText(tblServicios.getValueAt(fila, 0).toString());
+            txtServicioNombre.setText(tblServicios.getValueAt(fila, 1).toString());
+            txtServicioCosto.setText(tblServicios.getValueAt(fila, 2).toString());
+        }
+    }//GEN-LAST:event_tblServiciosMouseClicked
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void txtServicioCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServicioCostoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        boolean isNumber = key >= 48 && key <=57;
+        
+        if(!isNumber){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtServicioCostoKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cboOpciones;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblServicios;
+    private javax.swing.JTextField txtIDServicio;
+    private javax.swing.JTextField txtServicioCosto;
+    private javax.swing.JTextField txtServicioNombre;
     // End of variables declaration//GEN-END:variables
 }

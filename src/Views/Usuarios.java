@@ -5,8 +5,6 @@
  */
 package Views;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import BAL.BalUsuarios;
 import java.util.ArrayList;
@@ -201,7 +199,9 @@ public class Usuarios extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblUsers);
 
-        btnExecute.setBackground(new java.awt.Color(0, 153, 255));
+        btnExecute.setBackground(new java.awt.Color(68, 204, 219));
+        btnExecute.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnExecute.setForeground(new java.awt.Color(255, 255, 255));
         btnExecute.setText("Ejecutar");
         btnExecute.setBorderPainted(false);
         btnExecute.setContentAreaFilled(false);
@@ -217,7 +217,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         IDUsuario.setEnabled(false);
 
+        btnClean.setBackground(new java.awt.Color(0, 102, 204));
+        btnClean.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnClean.setForeground(new java.awt.Color(255, 255, 255));
         btnClean.setText("Limpiar");
+        btnClean.setBorderPainted(false);
+        btnClean.setContentAreaFilled(false);
+        btnClean.setOpaque(true);
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCleanActionPerformed(evt);
@@ -232,16 +238,14 @@ public class Usuarios extends javax.swing.JInternalFrame {
                 .addGap(80, 80, 80)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(btnExecute))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnExecute, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnClean)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(IDUsuario)
@@ -251,7 +255,10 @@ public class Usuarios extends javax.swing.JInternalFrame {
                             .addComponent(cboAcciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtPass, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
                         .addGap(119, 119, 119)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -282,11 +289,11 @@ public class Usuarios extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(cboAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExecute)
-                    .addComponent(btnClean))
-                .addContainerGap(113, Short.MAX_VALUE))
+                    .addComponent(btnExecute, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
