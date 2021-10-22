@@ -7,7 +7,7 @@ public class Conexion {
     private static Connection cnx = null;
 
     public Connection Open() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://localhost:3306/jcsdb";
+        String url = "jdbc:mysql://localhost:3306/jcsdb_dev";
         String username = "root";
         String password = "root";
         if (cnx == null) {

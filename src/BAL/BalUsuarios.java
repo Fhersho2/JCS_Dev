@@ -6,7 +6,6 @@
 package BAL;
 
 import DAL.Conexion;
-import java.awt.List;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -64,15 +63,15 @@ public class BalUsuarios {
 
     public boolean validarUsuario(BalUsuarios usuario) {
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call Login(?, ?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call login(?, ?)}");
             procedure.setString(1, usuario.getUsername());
             procedure.setString(2, usuario.getPass());
             procedure.execute();
             final ResultSet rs = procedure.getResultSet();
-            if (rs.next()) {
-                setUsername(rs.getString("username"));
-                setFullname(rs.getString("fullname"));
-                setAdmintype(rs.getString("admintype"));
+            if (rs.next()){
+                setUsername(rs.getString("Usuario"));
+                setFullname(rs.getString("Nombre"));
+                setAdmintype(rs.getString("TipoUsuario"));
                 return true;
             } else {
                 return false;
@@ -94,10 +93,10 @@ public class BalUsuarios {
             rs = procedure.getResultSet();
             while(rs.next()){
                 BalUsuarios user = new BalUsuarios();
-                user.adminID = Integer.parseInt(rs.getString("adminID"));
-                user.fullname = rs.getString("fullname");
-                user.username = rs.getString("username");
-                user.admintype = rs.getString("admintype");
+                user.adminID = Integer.parseInt(rs.getString("IDUsuario"));
+                user.fullname = rs.getString("Nombre");
+                user.username = rs.getString("Usuario");
+                user.admintype = rs.getString("TipoUsuario");
                 usuarios.add(user);
 //                setFullname(rs.getString("fullname"));
 //                setAdmintype(rs.getString("admintype"));
@@ -128,7 +127,7 @@ public class BalUsuarios {
     
     public void modificarUsuario(BalUsuarios usuario){
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call jcsdb.modificarUsuario(?, ?, ?, ?, ?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call modificarUsuario(?, ?, ?, ?, ?)}");
             procedure.setInt(1, usuario.getAdminID());
             procedure.setString(2, usuario.getFullname());
             procedure.setString(3, usuario.getUsername());

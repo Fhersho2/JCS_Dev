@@ -52,9 +52,9 @@ public class BalServicios {
             rs = procedure.getResultSet();
             while(rs.next()){
                 BalServicios servicio = new BalServicios();
-                servicio.IDServicio = Integer.parseInt(rs.getString("referencia"));
+                servicio.IDServicio = Integer.parseInt(rs.getString("Referencia_S"));
                 servicio.NombreServicio = rs.getString("Nombre");
-                servicio.CostoServicio = rs.getString("costo");
+                servicio.CostoServicio = rs.getString("Costo");
                 servicios.add(servicio);
             }
             procedure.close();
@@ -68,7 +68,7 @@ public class BalServicios {
     
     public void agregarServicio(BalServicios servicio){
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call jcsdb.agregarServicio(?, ?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call agregarServicio(?, ?)}");
             procedure.setString(1, servicio.getNombreServicio());
             procedure.setString(2, servicio.getCostoServicio());
             procedure.execute();
@@ -81,7 +81,7 @@ public class BalServicios {
     
     public void modificarServicio(BalServicios servicio){
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call jcsdb.modificarServicio(?, ?, ?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call modificarServicio(?, ?, ?)}");
             procedure.setInt(1, servicio.getIDServicio());
             procedure.setString(2, servicio.getNombreServicio());
             procedure.setString(3, servicio.getCostoServicio());
