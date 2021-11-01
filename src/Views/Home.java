@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 //import javax.swing.JInternalFrame;
 import BAL.BalUsuarios;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,7 +42,8 @@ public class Home extends javax.swing.JFrame {
         lblFullName.setText(usuario.fullname);
         lblTipoUsuario.setText(usuario.admintype);
     }
-
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -392,7 +394,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!lblTipoUsuario.getText().equals("Cajero")) {
             if (!viewPeriodos.isShowing()) {
-                escritorio.add(viewPeriodos);
+                escritorio.add(viewPeriodos,0);
                 viewPeriodos.show();
                 escritorio.remove(ViewAlumnos);
                 escritorio.remove(viewUsuarios);

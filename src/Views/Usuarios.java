@@ -15,7 +15,7 @@ import java.util.Iterator;
  * @author Terckoer
  */
 public class Usuarios extends javax.swing.JInternalFrame {
-
+    
     BalUsuarios control = new BalUsuarios();
 
     /**
@@ -24,16 +24,16 @@ public class Usuarios extends javax.swing.JInternalFrame {
     public Usuarios() {
         initComponents();
         this.setTitle("Usuarios");
-
+        
     }
-
+    
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel() {
         @Override
         public boolean isCellEditable(int i, int i1) {
             return false; //To change body of generated methods, choose Tools | Templates.
         }
     };
-
+    
     public void actualizarDatos() {
         model.setNumRows(0);
         model.setColumnCount(0);
@@ -64,7 +64,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         }
         tblUsers.setModel(model);
     }
-
+    
     public void Limpiar() {
         IDUsuario.setText("");
         txtNombre.setText("");
@@ -73,7 +73,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         cboTipoUsuario.setSelectedIndex(0);
         cboAcciones.setSelectedIndex(0);
     }
-
+    
     public void Actions() {
         if (!txtNombre.getText().equals("") && !txtPass.getText().equals("") && !txtUsuario.getText().equals("") && !cboTipoUsuario.getSelectedItem().equals("Seleccionar...")) {
             if (cboAcciones.getSelectedItem().equals("Agregar") && IDUsuario.getText().equals("")) {
@@ -96,11 +96,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
                 actualizarDatos();
                 Limpiar();
             }
-        } else {
+        } else if(cboAcciones.getSelectedItem().equals("Eliminar") && !IDUsuario.getText().equals("")){
             BalUsuarios user = new BalUsuarios();
             user.eliminarUsuario(Integer.parseInt(IDUsuario.getText()));
             actualizarDatos();
             Limpiar();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se permiten campos vacios");
         }
     }
 
@@ -175,7 +177,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Acciones:");
 
-        cboAcciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Modificar", "Elimnar" }));
+        cboAcciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Modificar", "Eliminar" }));
         cboAcciones.setRequestFocusEnabled(false);
 
         tblUsers.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N

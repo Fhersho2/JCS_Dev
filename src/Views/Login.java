@@ -231,7 +231,6 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
                 Home n = new Home(user);
                 n.setVisible(true);
-                n.setExtendedState(MAXIMIZED_BOTH);
             }else{
                 JOptionPane.showMessageDialog(null,"Datos Incorrectos");
             }

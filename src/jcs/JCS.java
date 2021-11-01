@@ -1,5 +1,6 @@
 package jcs;
 
+import Views.Home;
 import Views.Login;
 
 public class JCS {
@@ -21,6 +22,7 @@ public class JCS {
 
         Login vista = new Login();
         vista.setVisible(true);
+
     }
 
 }

@@ -209,7 +209,7 @@
               <StringArray count="3">
                 <StringItem index="0" value="Agregar"/>
                 <StringItem index="1" value="Modificar"/>
-                <StringItem index="2" value="Elimnar"/>
+                <StringItem index="2" value="Eliminar"/>
               </StringArray>
             </Property>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>

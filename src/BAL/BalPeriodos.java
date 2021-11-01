@@ -1,8 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
+//gg
 package BAL;
 import DAL.Conexion;
 import java.sql.CallableStatement;
@@ -22,6 +21,10 @@ public class BalPeriodos {
     
     Conexion conn = new Conexion();
     public int IdPeriodo;
+    public int Año;
+    public String Periodo;
+    public Date FechaInicio;
+    public Date FechaFin;
 
     public int getIdPeriodo() {
         return IdPeriodo;
@@ -30,10 +33,6 @@ public class BalPeriodos {
     public void setIdPeriodo(int IdPeriodo) {
         this.IdPeriodo = IdPeriodo;
     }
-    public int Año;
-    public String Periodo;
-    public Date FechaInicio;
-    public Date FechaFin;
 
     public int getAño() {
         return Año;
@@ -67,6 +66,7 @@ public class BalPeriodos {
         this.FechaFin = FechaFin;
     }
     
+    
     public ArrayList<BalPeriodos> listarPeriodos() {
         ResultSet rs;
         ArrayList<BalPeriodos> periodos = new ArrayList<>();
@@ -87,8 +87,51 @@ public class BalPeriodos {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return periodos;
+    }
+    
+    public void agregarPeriodo(BalPeriodos periodo){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call agregarPeriodo(?, ?, ?, ?)}");
+            procedure.setInt(1, Integer.parseInt(periodo.getPeriodo()));
+            procedure.setInt(2, periodo.getAño());
+            procedure.setDate(3, periodo.getFechaInicio());
+            procedure.setDate(4, periodo.getFechaFin());
+            procedure.executeQuery();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Periodo agregado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void modificarPeriodo(BalPeriodos periodo){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call modificarPeriodo(?,?, ?, ?, ?)}");
+            procedure.setInt(1, periodo.getIdPeriodo());
+            procedure.setInt(2, Integer.parseInt(periodo.getPeriodo()));
+            procedure.setInt(3, periodo.getAño());
+            procedure.setDate(4, periodo.getFechaInicio());
+            procedure.setDate(5, periodo.getFechaFin());
+            procedure.executeQuery();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Periodo modificado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarPeriodo(int ID){
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call eliminarPeriodo(?)}");
+            procedure.setInt(1, ID);
+            procedure.executeQuery();
+            procedure.close();
+            JOptionPane.showMessageDialog(null, "Periodo eliminado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
