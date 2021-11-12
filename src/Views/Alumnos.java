@@ -34,7 +34,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         this.setTitle("Alumnos");
         txtFechaP.setEnabled(false);
         txtFechaP.setCalendar(Fecha_actual);
-        txtFechaL.setCalendar(Fecha_actual);
+        txtPeriodoL.setCalendar(Fecha_actual);
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -79,6 +79,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         txtEmergencias.setText("");
         cboEstatus.setSelectedIndex(0);
         txtSaldo.setText("");
+        actualizarDatos();
     }
 
     public void actualizarDatos() {
@@ -236,6 +237,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         cboAcciones = new javax.swing.JComboBox<>();
         btnLimpiar = new javax.swing.JButton();
         btnEjecutar = new javax.swing.JButton();
+        btnBuscarAlumno = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         txtEmergencias = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
@@ -256,16 +258,16 @@ public class Alumnos extends javax.swing.JInternalFrame {
         btnAsignarS = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        ComboS1 = new javax.swing.JComboBox<>();
-        ComboG1 = new javax.swing.JComboBox<>();
-        txtFechaL = new com.toedter.calendar.JDateChooser();
-        ComboP1 = new javax.swing.JComboBox<>();
+        cboSemestreL = new javax.swing.JComboBox<>();
+        cboGrupoL = new javax.swing.JComboBox<>();
+        txtPeriodoL = new com.toedter.calendar.JDateChooser();
+        cboPeriodoL = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAlumnos = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
-        btnActivos = new javax.swing.JButton();
         btnPendientes = new javax.swing.JButton();
         btnBajas = new javax.swing.JButton();
+        btnActivos = new javax.swing.JButton();
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -398,6 +400,13 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscarAlumno.setText("Search");
+        btnBuscarAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarAlumnoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -412,7 +421,10 @@ public class Alumnos extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscarAlumno))
                             .addComponent(txtNombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -459,7 +471,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtNoControl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscarAlumno)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNombreA, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -680,21 +694,24 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Seleccione para generar lista ");
 
-        ComboS1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        ComboS1.setToolTipText("");
-        ComboS1.setPreferredSize(new java.awt.Dimension(45, 29));
+        cboSemestreL.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cboSemestreL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "1", "2", "3", "4", "5", "6" }));
+        cboSemestreL.setToolTipText("");
+        cboSemestreL.setPreferredSize(new java.awt.Dimension(45, 29));
 
-        ComboG1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        ComboG1.setPreferredSize(new java.awt.Dimension(45, 29));
+        cboGrupoL.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cboGrupoL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "A", "B", "C", "D", "E", "F", "G" }));
+        cboGrupoL.setPreferredSize(new java.awt.Dimension(45, 29));
 
-        txtFechaL.setBackground(new java.awt.Color(255, 255, 255));
-        txtFechaL.setForeground(new java.awt.Color(255, 255, 255));
-        txtFechaL.setDateFormatString("yyyy");
-        txtFechaL.setInheritsPopupMenu(true);
-        txtFechaL.setMinimumSize(new java.awt.Dimension(81, 29));
+        txtPeriodoL.setBackground(new java.awt.Color(255, 255, 255));
+        txtPeriodoL.setForeground(new java.awt.Color(255, 255, 255));
+        txtPeriodoL.setDateFormatString("yyyy");
+        txtPeriodoL.setInheritsPopupMenu(true);
+        txtPeriodoL.setMinimumSize(new java.awt.Dimension(81, 29));
 
-        ComboP1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        ComboP1.setPreferredSize(new java.awt.Dimension(45, 29));
+        cboPeriodoL.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cboPeriodoL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "A", "B" }));
+        cboPeriodoL.setPreferredSize(new java.awt.Dimension(45, 29));
 
         tblAlumnos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
@@ -727,19 +744,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnActivos.setBackground(new java.awt.Color(0, 204, 51));
-        btnActivos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnActivos.setForeground(new java.awt.Color(255, 255, 255));
-        btnActivos.setText("Activos");
-        btnActivos.setBorderPainted(false);
-        btnActivos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnActivos.setRequestFocusEnabled(false);
-        btnActivos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActivosActionPerformed(evt);
-            }
-        });
-
         btnPendientes.setBackground(new java.awt.Color(242, 170, 23));
         btnPendientes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnPendientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -756,13 +760,26 @@ public class Alumnos extends javax.swing.JInternalFrame {
         btnBajas.setBackground(new java.awt.Color(232, 59, 45));
         btnBajas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnBajas.setForeground(new java.awt.Color(255, 255, 255));
-        btnBajas.setText("Bajas");
+        btnBajas.setText("Inactivos");
         btnBajas.setBorderPainted(false);
         btnBajas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBajas.setRequestFocusEnabled(false);
         btnBajas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBajasActionPerformed(evt);
+            }
+        });
+
+        btnActivos.setBackground(new java.awt.Color(0, 204, 51));
+        btnActivos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnActivos.setForeground(new java.awt.Color(255, 255, 255));
+        btnActivos.setText("Activos");
+        btnActivos.setBorderPainted(false);
+        btnActivos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActivos.setRequestFocusEnabled(false);
+        btnActivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivosActionPerformed(evt);
             }
         });
 
@@ -774,41 +791,41 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addGap(18, 18, 18)
-                        .addComponent(ComboS1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboSemestreL, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ComboG1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboGrupoL, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFechaL, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPeriodoL, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ComboP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboPeriodoL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnActivos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ComboP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboPeriodoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtFechaL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ComboG1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPeriodoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboGrupoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ComboS1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cboSemestreL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel17)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -831,9 +848,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(21, 21, 21))
+                .addGap(10, 10, 10)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -844,7 +861,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -885,33 +904,115 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
     private void btnAsignarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarUActionPerformed
         // TODO add your handling code here:
-        if(txtNoControl.getText().equals("")){
+        if (txtNoControl.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "No seleccionaste alumno");
-        }else{
+        } else {
             Modales modalv = new Modales();
             modalv.modalUsuario(txtNoControl.getText());
         }
     }//GEN-LAST:event_btnAsignarUActionPerformed
 
     private void btnAsignarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarSActionPerformed
-        if(txtNoControl.getText().equals("")){
+        if (txtNoControl.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "No seleccionaste alumno");
-        }else{
+        } else {
             Modales modals = new Modales();
             modals.modalSaldo(txtNoControl.getText());
         }
     }//GEN-LAST:event_btnAsignarSActionPerformed
 
     private void btnActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivosActionPerformed
+        model.setNumRows(0);
+        model.setColumnCount(0);
+        model.addColumn("NoControl");
+        model.addColumn("Nombre");
+        model.addColumn("Semestre");
+        model.addColumn("Estatus");
+        tblAlumnos.getTableHeader().setReorderingAllowed(false);
+        ArrayList<BalAlumnos> modelo;
 
+        modelo = control.listaActivos();
+        try {
+            int cantidad = modelo.size();
+            model.setNumRows(cantidad);
+            int x = 0;
+            Iterator<BalAlumnos> itrAlumnos = modelo.iterator();
+            while (itrAlumnos.hasNext()) {
+                BalAlumnos alumno = itrAlumnos.next();
+                model.setValueAt(alumno.NoControl, x, 0);
+                model.setValueAt(alumno.Nombre, x, 1);
+                model.setValueAt(alumno.Semestre, x, 2);
+                model.setValueAt(alumno.Estatus, x, 3);
+                x++;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        tblAlumnos.setModel(model);
     }//GEN-LAST:event_btnActivosActionPerformed
 
     private void btnBajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajasActionPerformed
+        model.setNumRows(0);
+        model.setColumnCount(0);
+        model.addColumn("NoControl");
+        model.addColumn("Nombre");
+        model.addColumn("Semestre");
+        model.addColumn("Estatus");
+        tblAlumnos.getTableHeader().setReorderingAllowed(false);
+        ArrayList<BalAlumnos> modelo;
 
+        modelo = control.listaInactivos();
+        try {
+            int cantidad = modelo.size();
+            model.setNumRows(cantidad);
+            int x = 0;
+            Iterator<BalAlumnos> itrAlumnos = modelo.iterator();
+            while (itrAlumnos.hasNext()) {
+                BalAlumnos alumno = itrAlumnos.next();
+                model.setValueAt(alumno.NoControl, x, 0);
+                model.setValueAt(alumno.Nombre, x, 1);
+                model.setValueAt(alumno.Semestre, x, 2);
+                model.setValueAt(alumno.Estatus, x, 3);
+                x++;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        tblAlumnos.setModel(model);
     }//GEN-LAST:event_btnBajasActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
+        if (cboSemestreL.getSelectedItem().equals("...") || cboGrupoL.getSelectedItem().equals("...") || (txtPeriodoL.getDate() + "").equals("") || cboPeriodoL.getSelectedItem().equals("...")) {
+            JOptionPane.showMessageDialog(null, "Tiene campos de busqueda vacios");
+        } else {
+            model.setNumRows(0);
+            model.setColumnCount(0);
+            model.addColumn("NoControl");
+            model.addColumn("Nombre");
+            model.addColumn("Semestre");
+            model.addColumn("Estatus");
+            tblAlumnos.getTableHeader().setReorderingAllowed(false);
+            ArrayList<BalAlumnos> modelo;
+            String fecha = (txtPeriodoL.getDate() + "").substring((txtPeriodoL.getDate() + "").length() - 4, (txtPeriodoL.getDate() + "").length());
+            modelo = control.generarListaGrupo(cboSemestreL.getSelectedItem().toString(), cboGrupoL.getSelectedItem().toString(), fecha, cboPeriodoL.getSelectedItem().toString());
+            try {
+                int cantidad = modelo.size();
+                model.setNumRows(cantidad);
+                int x = 0;
+                Iterator<BalAlumnos> itrAlumnos = modelo.iterator();
+                while (itrAlumnos.hasNext()) {
+                    BalAlumnos alumno = itrAlumnos.next();
+                    model.setValueAt(alumno.NoControl, x, 0);
+                    model.setValueAt(alumno.Nombre, x, 1);
+                    model.setValueAt(alumno.Semestre, x, 2);
+                    model.setValueAt(alumno.Estatus, x, 3);
+                    x++;
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            tblAlumnos.setModel(model);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPendientesActionPerformed
@@ -946,7 +1047,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 txtEmergencias.setText(modelo.get(0).Emergencias);
                 cboEstatus.setSelectedItem(modelo.get(0).Estatus);
                 txtSaldo.setText(modelo.get(0).Saldo);
-
+                actualizarDatos();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -964,24 +1065,57 @@ public class Alumnos extends javax.swing.JInternalFrame {
         Limpiar();
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void btnBuscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAlumnoActionPerformed
+        // TODO add your handling code here:
+        if (!txtNoControl.getText().equals("")) {
+            model.setNumRows(0);
+            model.setColumnCount(0);
+            model.addColumn("NoControl");
+            model.addColumn("Nombre");
+            model.addColumn("Semestre");
+            model.addColumn("Estatus");
+            tblAlumnos.getTableHeader().setReorderingAllowed(false);
+            ArrayList<BalAlumnos> modelo;
+            modelo = control.consultarAlumno(Integer.parseInt(txtNoControl.getText()));
+            try {
+                int cantidad = modelo.size();
+                model.setNumRows(cantidad);
+                int x = 0;
+                Iterator<BalAlumnos> itrAlumnos = modelo.iterator();
+                while (itrAlumnos.hasNext()) {
+                    BalAlumnos alumno = itrAlumnos.next();
+                    model.setValueAt(alumno.NoControl, x, 0);
+                    model.setValueAt(alumno.Nombre, x, 1);
+                    model.setValueAt(alumno.Semestre, x, 2);
+                    model.setValueAt(alumno.Estatus, x, 3);
+                    x++;
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            tblAlumnos.setModel(model);
+        }
+    }//GEN-LAST:event_btnBuscarAlumnoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ComboG1;
-    private javax.swing.JComboBox<String> ComboP1;
-    private javax.swing.JComboBox<String> ComboS1;
     private javax.swing.JButton btnActivos;
     private javax.swing.JButton btnAsignarS;
     private javax.swing.JButton btnAsignarU;
     private javax.swing.JButton btnBajas;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscarAlumno;
     private javax.swing.JButton btnEjecutar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPendientes;
     private javax.swing.JComboBox<String> cboAcciones;
     private javax.swing.JComboBox<String> cboEstatus;
     private javax.swing.JComboBox<String> cboGrupo;
+    private javax.swing.JComboBox<String> cboGrupoL;
     private javax.swing.JComboBox<String> cboPeriodo;
+    private javax.swing.JComboBox<String> cboPeriodoL;
     private javax.swing.JComboBox<String> cboSemestre;
+    private javax.swing.JComboBox<String> cboSemestreL;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1010,7 +1144,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextArea txtDomicilio;
     private javax.swing.JTextField txtEmergencias;
-    private com.toedter.calendar.JDateChooser txtFechaL;
     private com.toedter.calendar.JDateChooser txtFechaN;
     private com.toedter.calendar.JDateChooser txtFechaP;
     private javax.swing.JTextField txtLugarN;
@@ -1018,6 +1151,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField txtNoControl;
     private javax.swing.JTextField txtNombreA;
     private javax.swing.JTextField txtPadre;
+    private com.toedter.calendar.JDateChooser txtPeriodoL;
     private javax.swing.JTextField txtSaldo;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables

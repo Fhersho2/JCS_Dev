@@ -1,12 +1,15 @@
 package Views;
 
+import BAL.BalPeriodos;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import javax.swing.JInternalFrame;
 import BAL.BalUsuarios;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -41,6 +44,30 @@ public class Home extends javax.swing.JFrame {
         lblAdmin.setText(usuario.username);
         lblFullName.setText(usuario.fullname);
         lblTipoUsuario.setText(usuario.admintype);
+        lblidAdmin.setText(usuario.adminID + "");
+        periodoActual();
+    }
+    
+    public void periodoActual(){
+        //ObtenerFecha fecha = new ObtenerFecha();
+        java.sql.Date fechaN = new java.sql.Date(new Date().getTime());
+        System.out.println(fechaN);
+        BalPeriodos control = new BalPeriodos();
+        ArrayList<BalPeriodos> modelo;
+        modelo = control.consultarPeriodo(fechaN);
+        try {
+            int x = 0;
+            Iterator<BalPeriodos> itrPeriodos = modelo.iterator();
+            while (itrPeriodos.hasNext()) {
+                BalPeriodos periodo = itrPeriodos.next();
+                lblPeriodo.setText(periodo.Periodo);
+                lblidPeriodo.setText((periodo.IdPeriodo)+ "");
+                x++;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
    
@@ -70,11 +97,20 @@ public class Home extends javax.swing.JFrame {
         btn_Mensualidades = new javax.swing.JButton();
         btn_reportes = new javax.swing.JButton();
         btn_periodos = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        lblPeriodo = new javax.swing.JLabel();
+        lblidAdmin = new javax.swing.JLabel();
+        lblidPeriodo = new javax.swing.JLabel();
         escritorio = new javax.swing.JDesktopPane();
 
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         InformationUser.setBackground(new java.awt.Color(38, 70, 83));
 
@@ -295,12 +331,31 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Periodo:");
+
+        lblPeriodo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblPeriodo.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblidAdmin.setText("jLabel5");
+
+        lblidPeriodo.setText("jLabel6");
+
         javax.swing.GroupLayout InformationUserLayout = new javax.swing.GroupLayout(InformationUser);
         InformationUser.setLayout(InformationUserLayout);
         InformationUserLayout.setHorizontalGroup(
             InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InformationUserLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(lblPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblidAdmin)
+                .addGap(18, 18, 18)
+                .addComponent(lblidPeriodo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,16 +375,27 @@ public class Home extends javax.swing.JFrame {
         InformationUserLayout.setVerticalGroup(
             InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InformationUserLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTipoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPeriodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(InformationUserLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTipoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(InformationUserLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(InformationUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblidAdmin)
+                            .addComponent(lblidPeriodo))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PaneNavBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67))
         );
@@ -340,7 +406,7 @@ public class Home extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 913, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,6 +612,8 @@ public class Home extends javax.swing.JFrame {
 
     private void btn_pagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagosActionPerformed
         // TODO add your handling code here:
+        viewPagos.setAdmin(lblidAdmin.getText());
+        viewPagos.setPeriodo(lblidPeriodo.getText());
         if (!viewPagos.isShowing()) {
             escritorio.add(viewPagos);
             viewPagos.show();
@@ -682,6 +750,10 @@ public class Home extends javax.swing.JFrame {
         vista.setVisible(true);
     }//GEN-LAST:event_LogOutActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -713,8 +785,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     public javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblFullName;
+    private javax.swing.JLabel lblPeriodo;
     private javax.swing.JLabel lblTipoUsuario;
+    public javax.swing.JLabel lblidAdmin;
+    public javax.swing.JLabel lblidPeriodo;
     // End of variables declaration//GEN-END:variables
 }

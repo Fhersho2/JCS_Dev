@@ -13,8 +13,6 @@ import javax.swing.JOptionPane;
 
 public class BalServicios {
     
-    Conexion conn = new Conexion();
-    
     public int IDServicio;
     public String NombreServicio;
     public String CostoServicio;
@@ -44,6 +42,7 @@ public class BalServicios {
     }
     
     public ArrayList<BalServicios> listarServicios() {
+        Conexion conn = new Conexion();
         ResultSet rs;
         ArrayList<BalServicios> servicios = new ArrayList<>();
         try {
@@ -58,6 +57,7 @@ public class BalServicios {
                 servicios.add(servicio);
             }
             procedure.close();
+            conn.cerrar();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -66,20 +66,23 @@ public class BalServicios {
         return servicios;
     }
     
-    public void agregarServicio(BalServicios servicio){
+    public void agregarServicio(BalServicios servicio) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call agregarServicio(?, ?)}");
             procedure.setString(1, servicio.getNombreServicio());
             procedure.setString(2, servicio.getCostoServicio());
             procedure.execute();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Servicio agregado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void modificarServicio(BalServicios servicio){
+    public void modificarServicio(BalServicios servicio) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call modificarServicio(?, ?, ?)}");
             procedure.setInt(1, servicio.getIDServicio());
@@ -87,18 +90,21 @@ public class BalServicios {
             procedure.setString(3, servicio.getCostoServicio());
             procedure.executeUpdate();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Servicio Modificado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void eliminarServicio(int ID){
+    public void eliminarServicio(int ID) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call eliminarServicio(?)}");
             procedure.setInt(1, ID);
             procedure.execute();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Servicio Eliminado con exito");
         } catch (SQLException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);

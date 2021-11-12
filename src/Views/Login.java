@@ -6,6 +6,7 @@
 package Views;
 
 import BAL.BalUsuarios;
+import DAL.Conexion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -223,7 +224,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        BalUsuarios user = new BalUsuarios();
+        BalUsuarios user = new BalUsuarios();       
         if(!txtUsuario.equals("") && !txtPass.equals("")){
             user.setUsername(txtUsuario.getText());
             user.setPass(txtPass.getText());

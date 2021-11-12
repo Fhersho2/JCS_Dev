@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 
 public class BalUsuarios {
 
-    Conexion conn = new Conexion();
     public int adminID; //Variable Global
     public String admintype; //Variable Global
     public String username; //Variable Global
@@ -62,36 +61,68 @@ public class BalUsuarios {
     }
 
     public boolean validarUsuario(BalUsuarios usuario) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call login(?, ?)}");
             procedure.setString(1, usuario.getUsername());
             procedure.setString(2, usuario.getPass());
             procedure.execute();
             final ResultSet rs = procedure.getResultSet();
-            if (rs.next()){
+            if (rs.next()) {
+                setAdminID(rs.getInt("IDUsuario"));
                 setUsername(rs.getString("Usuario"));
                 setFullname(rs.getString("Nombre"));
                 setAdmintype(rs.getString("TipoUsuario"));
+                try {
+                    conn.cerrar();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return true;
-            } else {
-                return false;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try {
+            conn.cerrar();
+        } catch (SQLException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
     }
-    
+
+//    public boolean validarUsuario(BalUsuarios usuario) {
+//        ResultSet rs = null;
+//        try {
+//            PreparedStatement ps = conn.Open().prepareStatement("SELECT IDUsuario, Nombre, Usuario, TipoUsuario FROM tbl_usuarios WHERE Usuario = ? AND Password = ?");
+//            ps.setString(1, usuario.getUsername());
+//            ps.setString(2, usuario.getPass());
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                return true;
+//            }else{
+//                return false;
+//            }
+//        } catch (SQLException e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return false;
+//    }
+//    
     public ArrayList<BalUsuarios> listarUsuarios() {
         ResultSet rs;
+        Conexion conn = new Conexion();
         ArrayList<BalUsuarios> usuarios = new ArrayList<>();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call listarUsuarios()}");
             procedure.execute();
             rs = procedure.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 BalUsuarios user = new BalUsuarios();
                 user.adminID = Integer.parseInt(rs.getString("IDUsuario"));
                 user.fullname = rs.getString("Nombre");
@@ -102,6 +133,7 @@ public class BalUsuarios {
 //                setAdmintype(rs.getString("admintype"));
             }
             procedure.close();
+            conn.cerrar();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -109,8 +141,9 @@ public class BalUsuarios {
         }
         return usuarios;
     }
-    
-    public void agregarUsuario(BalUsuarios usuario){
+
+    public void agregarUsuario(BalUsuarios usuario) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call agregarUsuarios(?, ?, ?, ?)}");
             procedure.setString(1, usuario.getFullname());
@@ -119,13 +152,15 @@ public class BalUsuarios {
             procedure.setString(4, usuario.getAdmintype());
             procedure.executeQuery();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Usuario agregado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void modificarUsuario(BalUsuarios usuario){
+
+    public void modificarUsuario(BalUsuarios usuario) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call modificarUsuario(?, ?, ?, ?, ?)}");
             procedure.setInt(1, usuario.getAdminID());
@@ -135,18 +170,21 @@ public class BalUsuarios {
             procedure.setString(5, usuario.getAdmintype());
             procedure.executeUpdate();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Usuario Modificado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void eliminarUsuario(int ID){
+
+    public void eliminarUsuario(int ID) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call eliminarUsuario(?)}");
             procedure.setInt(1, ID);
             procedure.execute();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Usuario Eliminado con exito");
         } catch (SQLException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);

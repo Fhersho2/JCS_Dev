@@ -6,6 +6,13 @@
 
 package Views;
 
+import BAL.BalPagos;
+import BAL.BalServicios;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Terckoer
@@ -13,10 +20,66 @@ package Views;
 public class Pagos extends javax.swing.JInternalFrame {
 
     /** Creates new form Pagos */
+    String admin;
+    String periodo;
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
     public Pagos() {
         initComponents();
         this.setTitle("Pagos");
-
+        txtReferencia.setEditable(false);
+        cboMeses.setEnabled(false);
+        txtSaldo.setEditable(false);
+        txtFecha.setDate(new Date());
+        txtFecha.setEnabled(false);
+        txtPrecio.setEditable(false);
+    }
+    
+    
+    
+    
+    public void cargarServicios(){
+        BalServicios control = new BalServicios();
+        ArrayList<BalServicios> modelo;
+        modelo = control.listarServicios();
+        cboServicios.removeAllItems();
+        try {           
+            Iterator<BalServicios> itrUsuarios = modelo.iterator();
+            while (itrUsuarios.hasNext()) {
+                BalServicios servicio = itrUsuarios.next();
+                cboServicios.addItem(servicio.NombreServicio);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void generarCodigo(){
+        BalPagos control = new BalPagos();
+        txtReferencia.setText(control.generarCodigo());
+    }
+    
+    public void pagoContado(){
+        BalPagos control = new BalPagos();
+        control.setReferencia_P(txtReferencia.getText());
+        control.setIDUsuario(Integer.parseInt(admin));
+        control.setIDAlumno(Integer.parseInt(txtNoControl.getText()));
+        Date dateI = txtFecha.getDate();
+        long d = dateI.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        control.setFecha(fecha);
+        control.setIDPeriodo(Integer.parseInt(periodo));
+        control.setCosto("13400");
+        control.setTipoPago("Contado");
+        control.setEstatus("Pagado");
+        control.agregarPagoContado(control);
+        //pagoDetalleContado();
     }
 
     /** This method is called from within the constructor to
@@ -28,24 +91,292 @@ public class Pagos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtReferencia = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtNoControl = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        cboServicios = new javax.swing.JComboBox<>();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        txtSaldo = new javax.swing.JTextField();
+        chkAplicarSaldo = new javax.swing.JCheckBox();
+        chkMensualidad = new javax.swing.JCheckBox();
+        cboMeses = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        btnPagar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JTextField();
+
         setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(42, 157, 143));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Datos del Pago:");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Referencia:");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Clave Alumno:");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Fecha:");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Servicio:");
+
+        cboServicios.setFocusable(false);
+        cboServicios.setRequestFocusEnabled(false);
+        cboServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cboServiciosMouseClicked(evt);
+            }
+        });
+
+        txtFecha.setDateFormatString("yyyy-MM-dd");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Saldo:");
+
+        chkAplicarSaldo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        chkAplicarSaldo.setForeground(new java.awt.Color(255, 255, 255));
+        chkAplicarSaldo.setText("Aplicar Saldo");
+        chkAplicarSaldo.setContentAreaFilled(false);
+        chkAplicarSaldo.setFocusPainted(false);
+
+        chkMensualidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        chkMensualidad.setForeground(new java.awt.Color(255, 255, 255));
+        chkMensualidad.setText("Mensualidad");
+        chkMensualidad.setFocusPainted(false);
+        chkMensualidad.setOpaque(false);
+        chkMensualidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMensualidadActionPerformed(evt);
+            }
+        });
+
+        cboMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+        cboMeses.setRequestFocusEnabled(false);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Datos del Servicio:");
+
+        btnPagar.setBackground(new java.awt.Color(0, 102, 204));
+        btnPagar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnPagar.setForeground(new java.awt.Color(255, 255, 255));
+        btnPagar.setText("Pagar");
+        btnPagar.setBorderPainted(false);
+        btnPagar.setContentAreaFilled(false);
+        btnPagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPagar.setFocusPainted(false);
+        btnPagar.setOpaque(true);
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setRowHeight(32);
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Precio:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cboMeses, 0, 99, Short.MAX_VALUE)
+                                    .addComponent(txtSaldo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(chkMensualidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(chkAplicarSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(202, 202, 202))))
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkAplicarSaldo)))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkMensualidad)
+                    .addComponent(cboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addComponent(jLabel7)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPagar)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkMensualidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMensualidadActionPerformed
+        // TODO add your handling code here:
+        if(chkMensualidad.isSelected()){
+            cboMeses.setEnabled(true);
+        }else{
+            cboMeses.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkMensualidadActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        // TODO add your handling code here:
+        generarCodigo();
+        cargarServicios();
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void cboServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboServiciosMouseClicked
+        // TODO add your handling code here:
+        cargarServicios();
+    }//GEN-LAST:event_cboServiciosMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        // TODO add your handling code here:
+        cargarServicios();
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        // TODO add your handling code here:
+        pagoContado();
+    }//GEN-LAST:event_btnPagarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPagar;
+    private javax.swing.JComboBox<String> cboMeses;
+    private javax.swing.JComboBox<String> cboServicios;
+    private javax.swing.JCheckBox chkAplicarSaldo;
+    private javax.swing.JCheckBox chkMensualidad;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private com.toedter.calendar.JDateChooser txtFecha;
+    private javax.swing.JTextField txtNoControl;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtReferencia;
+    private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 
 }

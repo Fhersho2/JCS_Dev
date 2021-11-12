@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
  */
 public class BalPeriodos {
     
-    Conexion conn = new Conexion();
     public int IdPeriodo;
     public int Año;
     public String Periodo;
@@ -67,7 +66,8 @@ public class BalPeriodos {
     }
     
     
-    public ArrayList<BalPeriodos> listarPeriodos() {
+    public ArrayList<BalPeriodos> listarPeriodos(){
+        Conexion conn = new Conexion();
         ResultSet rs;
         ArrayList<BalPeriodos> periodos = new ArrayList<>();
         try {
@@ -77,13 +77,14 @@ public class BalPeriodos {
             while(rs.next()){
                 BalPeriodos periodo = new BalPeriodos();
                 periodo.IdPeriodo = rs.getInt("IDPeriodo");
-                periodo.Año = Integer.parseInt(rs.getString("Año"));
+                periodo.Año = Integer.parseInt(rs.getString("Year"));
                 periodo.Periodo = (rs.getString("Rango"));
                 periodo.FechaInicio = rs.getDate("FechaInicial");
                 periodo.FechaFin = rs.getDate("FechaFin");
                 periodos.add(periodo);
             }
             procedure.close();
+            conn.cerrar();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -92,7 +93,8 @@ public class BalPeriodos {
         return periodos;
     }
     
-    public void agregarPeriodo(BalPeriodos periodo){
+    public void agregarPeriodo(BalPeriodos periodo) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call agregarPeriodo(?, ?, ?, ?)}");
             procedure.setInt(1, Integer.parseInt(periodo.getPeriodo()));
@@ -101,13 +103,15 @@ public class BalPeriodos {
             procedure.setDate(4, periodo.getFechaFin());
             procedure.executeQuery();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Periodo agregado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void modificarPeriodo(BalPeriodos periodo){
+    public void modificarPeriodo(BalPeriodos periodo) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call modificarPeriodo(?,?, ?, ?, ?)}");
             procedure.setInt(1, periodo.getIdPeriodo());
@@ -117,21 +121,49 @@ public class BalPeriodos {
             procedure.setDate(5, periodo.getFechaFin());
             procedure.executeQuery();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Periodo modificado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void eliminarPeriodo(int ID){
+    public void eliminarPeriodo(int ID) {
+        Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call eliminarPeriodo(?)}");
             procedure.setInt(1, ID);
             procedure.executeQuery();
             procedure.close();
+            conn.cerrar();
             JOptionPane.showMessageDialog(null, "Periodo eliminado con exito");
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList<BalPeriodos> consultarPeriodo(Date fecha)  {
+        Conexion conn = new Conexion();
+        ResultSet rs;
+        ArrayList<BalPeriodos> periodos = new ArrayList<>();
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call seleccionarPeriodo(?)}");
+            procedure.setDate(1, fecha);
+            procedure.execute();
+            rs = procedure.getResultSet();
+            while(rs.next()){
+                BalPeriodos periodo = new BalPeriodos();
+                periodo.IdPeriodo = rs.getInt("IDPeriodo");
+                periodo.Periodo = (rs.getString("Rango"));
+                periodos.add(periodo);
+            }
+            procedure.close();
+            conn.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return periodos;
     }
 }
