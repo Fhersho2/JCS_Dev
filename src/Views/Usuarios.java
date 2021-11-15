@@ -52,7 +52,6 @@ public class Usuarios extends javax.swing.JInternalFrame {
             Iterator<BalUsuarios> itrUsuarios = modelo.iterator();
             while (itrUsuarios.hasNext()) {
                 BalUsuarios usuario = itrUsuarios.next();
-                System.out.println(usuario.fullname);
                 model.setValueAt(usuario.adminID, x, 0);
                 model.setValueAt(usuario.fullname, x, 1);
                 model.setValueAt(usuario.username, x, 2);

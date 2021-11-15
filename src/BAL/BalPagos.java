@@ -17,7 +17,88 @@ import java.sql.Date;
 
 public class BalPagos {
     
+    public int IDDetalle;
     public String Referencia_P;
+    public String Referencia_S;
+    public String Nota;
+    public String NombreServicio;
+    public String Mensualidad;
+    public Date FechaVencimiento;
+    public String PagoMensualidad;
+    public String Descuento;
+    public String PagoTotal;
+
+    public String getPagoTotal() {
+        return PagoTotal;
+    }
+
+    public void setPagoTotal(String PagoTotal) {
+        this.PagoTotal = PagoTotal;
+    }
+
+    public String getReferencia_S() {
+        return Referencia_S;
+    }
+
+    public void setReferencia_S(String Referencia_S) {
+        this.Referencia_S = Referencia_S;
+    }
+
+    public String getNota() {
+        return Nota;
+    }
+
+    public void setNota(String Nota) {
+        this.Nota = Nota;
+    }
+
+    public String getNombreServicio() {
+        return NombreServicio;
+    }
+
+    public void setNombreServicio(String NombreServicio) {
+        this.NombreServicio = NombreServicio;
+    }
+
+    public String getMensualidad() {
+        return Mensualidad;
+    }
+
+    public void setMensualidad(String Mensualidad) {
+        this.Mensualidad = Mensualidad;
+    }
+
+    public Date getFechaVencimiento() {
+        return FechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date FechaVencimiento) {
+        this.FechaVencimiento = FechaVencimiento;
+    }
+
+    public String getPagoMensualidad() {
+        return PagoMensualidad;
+    }
+
+    public void setPagoMensualidad(String PagoMensualidad) {
+        this.PagoMensualidad = PagoMensualidad;
+    }
+
+    public String getDescuento() {
+        return Descuento;
+    }
+
+    public void setDescuento(String Descuento) {
+        this.Descuento = Descuento;
+    }
+
+    public int getIDDetalle() {
+        return IDDetalle;
+    }
+
+    public void setIDDetalle(int IDDetalle) {
+        this.IDDetalle = IDDetalle;
+    }
     public int IDUsuario;
     public int IDAlumno;
     public Date Fecha;
@@ -106,6 +187,28 @@ public class BalPagos {
             procedure.close();
             conn.cerrar();
             JOptionPane.showMessageDialog(null, "Pago agregado con exito");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void agregarPagoContadoDetalle(BalPagos pago){
+        Conexion conn = new Conexion();
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call agregarPagoDetalle(?,?,?,?,?,?,?,?,?,?)}");
+            procedure.setString(1, pago.getReferencia_P());
+            procedure.setString(2, pago.getReferencia_S());
+            procedure.setString(3, pago.getNota());
+            procedure.setString(4, pago.getNombreServicio());
+            procedure.setString(5, pago.getMensualidad());
+            procedure.setDate(6, pago.getFechaVencimiento());
+            procedure.setString(7, pago.getPagoMensualidad());
+            procedure.setString(8, pago.getDescuento());
+            procedure.setString(9, pago.getPagoTotal());
+            procedure.setString(10, pago.getEstatus());
+            procedure.executeQuery();
+            procedure.close();
+            conn.cerrar();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
