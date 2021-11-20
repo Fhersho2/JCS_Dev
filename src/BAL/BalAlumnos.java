@@ -198,6 +198,7 @@ public class BalAlumnos {
                 alumno.Nombre = rs.getString("Nombre");
                 alumno.Semestre = rs.getString("Semestre");
                 alumno.Estatus = rs.getString("Estatus");
+                alumno.Saldo = rs.getString("Saldo");
                 alumnos.add(alumno);
             }
             procedure.close();

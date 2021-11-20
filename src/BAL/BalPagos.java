@@ -209,6 +209,7 @@ public class BalPagos {
             procedure.executeQuery();
             procedure.close();
             conn.cerrar();
+            
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
