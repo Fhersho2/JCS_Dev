@@ -8,11 +8,14 @@ package Views;
 import BAL.BalAlumnos;
 import BAL.BalPagos;
 import BAL.BalServicios;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -275,6 +278,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         control.setEstatus("Pendiente");
         control.agregarPagoContado(control);
         pagoDetalleMensualidad();
+         System.out.println("ME EJECUTE N VECES");
     }
     
      /*
@@ -284,29 +288,23 @@ public class Pagos extends javax.swing.JInternalFrame {
      
      */
      
-     
-     public static String sumarDiasAFecha(String fecha, int dias) {
-        if(dias == 0){
-            return fecha;
-        }
-
-        String[] f = fecha.split("-");
-        Calendar calendar = Calendar.getInstance();
-        //calendar.setTime(new Date(Integer.parseInt(f[0]), Integer.parseInt(f[1]), Integer.parseInt(f[2])));
-        calendar.set(Integer.parseInt(f[0]), Integer.parseInt(f[1])-1, Integer.parseInt(f[2]));
-
-        calendar.add(Calendar.DAY_OF_MONTH, dias);
-        SimpleDateFormat fe = new SimpleDateFormat("YYYY-MM-dd");
-        return fe.format(calendar.getTime());
-
-    }
-     
+    
      
      public void pagoDetalleMensualidad() {
         BalPagos control = new BalPagos();
         BalAlumnos alumnos = new BalAlumnos();
+        Date dateI = new Date();
+        long d = dateI.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String meses[] = (fecha+"").split("-");
+        int dia = Integer.parseInt(meses[2]);
+        SimpleDateFormat fe = new SimpleDateFormat("yyyy-MM-dd");
+        
         int size = Integer.parseInt(cboMeses.getSelectedItem()+"");
         for(int i=0;i<size;i++){
+            int year = Integer.parseInt(meses[0]);
+            int mes = Integer.parseInt(meses[1]);
+            String result ="";
             control.setReferencia_P(txtReferencia.getText());
             for (int x = 0; x < modelo.size(); x++) {
                 if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
@@ -315,25 +313,68 @@ public class Pagos extends javax.swing.JInternalFrame {
             }
             control.setNota(txtNota.getText());
             control.setNombreServicio(cboServicios.getSelectedItem().toString());
-            control.setMensualidad("No Aplica");
-            Date dateI = new Date();
-            long d = dateI.getTime();
-            java.sql.Date fecha = new java.sql.Date(d);
-            String meses[] = (fecha+"").split("-");
-            System.out.println(meses[1]);
-            int mes = Integer.parseInt(meses[1]);
-            //Ahora sigue sumar cada mensualidad
-            System.out.println(sumarDiasAFecha(fecha+"", 18));
+            control.setMensualidad((i+1)+"");
             
+            if(dia>27){
+                if(mes==11){
+                    meses[0] = (year+1)+"";
+                    meses[1] = ("01");
+                }
+                else if(mes ==12){
+                    meses[0] = (year+1)+"";
+                    meses[1] = "02";
+                }else{
+                    meses[1]= (mes+1)<10?("0"+(mes+1)):""+(mes+1);
+                }
+                dia = 10;
+                result =  meses[0]+"-"+meses[1]+"-"+dia;
+                
+                try {
+                                  
+                    Date dateLong = fe.parse(result);
+                    long variableLong = dateLong.getTime();
+                    java.sql.Date resultFecha = new java.sql.Date(variableLong);
+                    control.setFechaVencimiento(resultFecha);
             
-            control.setFechaVencimiento(fecha);
-            control.setPagoMensualidad((i+1)+"");
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Something went wrong");
+                }
+
+            }else{
+                 if(mes==12){
+                    meses[0] = (year+1)+"";
+                    meses[1] = "01";
+                }else{
+                    meses[1]=(mes+1)<10?("0"+(mes+1)):""+(mes+1);
+                }
+                dia = 10;
+                result =  meses[0]+"-"+meses[1]+"-"+dia;
+                
+               try {
+                                  
+                    Date dateLong = fe.parse(result);
+                    long variableLong = dateLong.getTime();
+                    java.sql.Date resultFecha = new java.sql.Date(variableLong);
+                    control.setFechaVencimiento(resultFecha);
+            
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Something went wrong");
+                }
+                
+
+            }
+           
+            
+            control.setPagoMensualidad((Integer.parseInt(txtPrecio.getText())/size)+"");
             control.setDescuento(0+"");
             control.setPagoTotal((Integer.parseInt(txtPrecio.getText())/size)+"");
             control.setEstatus("Pendiente");
-            //control.agregarPagoContadoDetalle(control);
+            control.agregarPagoContadoDetalle(control);
         }
     }
+     
+     
+     
      
     /**
      * This method is called from within the constructor to initialize the form.
