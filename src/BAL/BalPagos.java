@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import DAL.Conexion;
 import java.sql.Date;
+import java.util.ArrayList;
 
 
 public class BalPagos {
@@ -106,6 +107,15 @@ public class BalPagos {
     public String Costo;
     public String TipoPago;
     public String Estatus;
+
+    public String getServicio() {
+        return Servicio;
+    }
+
+    public void setServicio(String Servicio) {
+        this.Servicio = Servicio;
+    }
+    public String Servicio;
 
     public String getReferencia_P() {
         return Referencia_P;
@@ -235,4 +245,38 @@ public class BalPagos {
         }
         return "RP000" +  (Integer.parseInt(codigo) + 1);
     } 
+    
+    public ArrayList<BalPagos> listarPagos(){
+        Conexion conn = new Conexion();
+        ResultSet rs;
+        ArrayList<BalPagos> pagos = new ArrayList<>();
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call cargarMensualidad()}");
+            procedure.execute();
+            rs = procedure.getResultSet();
+            while(rs.next()){
+                BalPagos pago = new BalPagos();
+                pago.IDDetalle = rs.getInt("IDDetalle");
+                pago.Referencia_P = rs.getString("Referencia_P");
+                pago.IDAlumno = rs.getInt("IDAlumno");
+                pago.NombreServicio = rs.getString("NombreServicio");
+                pago.Mensualidad = rs.getString("Mensualidad");
+                pago.PagoMensualidad = rs.getString("PagoMensualidad");
+                pago.FechaVencimiento = rs.getDate("FechaVencimiento");
+                pago.Estatus = rs.getString("Estatus");
+                pagos.add(pago);
+            }
+            procedure.close();
+            conn.cerrar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pagos;
+    }
+    
+    
+    
+    
 }
