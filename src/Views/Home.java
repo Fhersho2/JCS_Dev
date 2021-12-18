@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 //import javax.swing.JInternalFrame;
 import BAL.BalUsuarios;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,11 +35,13 @@ public class Home extends javax.swing.JFrame {
         this.setTitle("Sistema Contable Preparatoria JCS");
         setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
+        
     }
 
     public Home(BalUsuarios usuario) {
         initComponents();
         this.setTitle("Sistema Contable Preparatoria JCS");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/icon.png")));
         setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
         lblAdmin.setText(usuario.username);

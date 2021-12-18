@@ -1,6 +1,7 @@
 package Views;
 
 import BAL.BalAlumnos;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputMap;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -25,6 +29,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
     Calendar Fecha_actual = new GregorianCalendar();
     BalAlumnos control = new BalAlumnos();
 
+   
+    
     /**
      * Creates new form Alumnos
      */
@@ -32,9 +38,13 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
         initComponents();
         this.setTitle("Alumnos");
+        
         txtFechaP.setEnabled(false);
         txtFechaP.setCalendar(Fecha_actual);
         txtPeriodoL.setCalendar(Fecha_actual);
+        
+        
+
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -52,6 +62,12 @@ public class Alumnos extends javax.swing.JInternalFrame {
         } catch (PropertyVetoException ex) {
             Logger.getLogger(Alumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        txtFechaN.setEnabled(false);
+        txtFechaN.getCalendarButton().setEnabled(true);
+        txtPeriodoL.setEnabled(false);
+        txtPeriodoL.getCalendarButton().setEnabled(true);
+        
+        
     }
 
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel() {
@@ -182,7 +198,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
     public void eliminarAlumno() {
         if (txtNoControl.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "No puedes eliminar algo que no haz seleccionado, imbecil");
+            JOptionPane.showMessageDialog(null, "No puedes eliminar algo que no haz seleccionado");
 
         } else {
             BalAlumnos alumno = new BalAlumnos();
@@ -310,14 +326,35 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jLabel3.setText("Fecha de nacimiento");
 
         txtNombreA.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtNombreA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreAKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreAKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Lugar de nacimiento");
 
         txtNoControl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtNoControl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNoControlKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoControlKeyTyped(evt);
+            }
+        });
 
         txtLugarN.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtLugarN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLugarNKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -400,7 +437,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscarAlumno.setBackground(new java.awt.Color(0, 153, 255));
+        btnBuscarAlumno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBuscarAlumno.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarAlumno.setText("Search");
+        btnBuscarAlumno.setBorderPainted(false);
         btnBuscarAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarAlumnoActionPerformed(evt);
@@ -420,11 +461,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBuscarAlumno))
+                                .addComponent(btnBuscarAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(txtNombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -537,9 +578,27 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nombre de padre o tutor");
 
+        txtMadre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMadreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMadreKeyTyped(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Nombre de madre");
+
+        txtPadre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPadreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPadreKeyTyped(evt);
+            }
+        });
 
         txtDomicilio.setColumns(20);
         txtDomicilio.setRows(5);
@@ -557,6 +616,14 @@ public class Alumnos extends javax.swing.JInternalFrame {
         txtSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSaldoActionPerformed(evt);
+            }
+        });
+        txtSaldo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSaldoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSaldoKeyTyped(evt);
             }
         });
 
@@ -1094,6 +1161,119 @@ public class Alumnos extends javax.swing.JInternalFrame {
             tblAlumnos.setModel(model);
         }
     }//GEN-LAST:event_btnBuscarAlumnoActionPerformed
+
+    private void txtNoControlKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtNoControl.getText().length();
+        boolean numero = key >= 48 && key <= 57;
+        System.out.println(key);
+         if (!numero || size>=8 )
+        {
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_txtNoControlKeyTyped
+
+    private void txtNombreAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreAKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtNombreA.getText().length();
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+         if (!(minusculas || mayusculas || espacio) || size>=55)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreAKeyTyped
+
+    private void txtPadreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPadreKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+         if (!(minusculas || mayusculas || espacio))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPadreKeyTyped
+
+    private void txtMadreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMadreKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+         if (!(minusculas || mayusculas || espacio))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMadreKeyTyped
+
+    private void txtSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+
+         if (!numero)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSaldoKeyTyped
+
+    private void txtLugarNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarNKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtLugarN.getText().length();
+        
+         if (size>=55)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtLugarNKeyTyped
+
+    private void txtNoControlKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNoControlKeyPressed
+
+    private void txtNombreAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreAKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreAKeyPressed
+
+    private void txtPadreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPadreKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPadreKeyPressed
+
+    private void txtMadreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMadreKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMadreKeyPressed
+
+    private void txtSaldoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSaldoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

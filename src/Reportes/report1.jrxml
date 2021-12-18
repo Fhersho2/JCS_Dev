@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="792" pageHeight="612" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db2f5c9b-4e1e-4518-ade4-a38c6680a43c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+		tbl_alumno.IDAlumno, tbl_alumno.Nombre, 
+		tbl_pagos.Referencia_P, tbl_pagos.TipoPago, 
+		tbl_detallepagos.Estatus, tbl_detallepagos.NombreServicio, 
+		tbl_detallepagos.Descuento, tbl_detallepagos.PagoTotal,
+		tbl_pagos.Fecha, tbl_usuarios.Nombre FROM ((tbl_alumno INNER JOIN tbl_pagos ON tbl_alumno.IDAlumno = tbl_pagos.IDAlumno) 
+		INNER JOIN tbl_usuarios ON tbl_pagos.IDUsuarios = tbl_usuarios.IDUsuario) 
+		INNER JOIN tbl_detallepagos ON tbl_pagos.Referencia_P = tbl_detallepagos.Referencia_P WHERE 
+        tbl_detallepagos.Estatus = 'Pagado' AND  tbl_pagos.Fecha BETWEEN $P{fechaInicio} AND $P{fechaFin};]]>
+	</queryString>
+	<field name="IDAlumno" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Referencia_P" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TipoPago" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Estatus" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NombreServicio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Descuento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PagoTotal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="79" uuid="03afb5df-775f-4e6f-b281-be6f64361f35"/>
+				<imageExpression><![CDATA["C:\\Users\\Terckoer\\Desktop\\Mas carpetas\\Java\\JCS\\JCS_Dev\\assets\\estadisticas12322.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="326" y="20" width="144" height="34" uuid="44533c86-60f2-474b-a172-693129b709d7"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Reportes]]></text>
+			</staticText>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="652" y="0" width="100" height="20" uuid="cd3bdb19-03ed-48af-bfd3-7f24a2ec9bdf"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="55" height="20" uuid="1dcf95e8-bc87-41dd-a71d-876000595bf4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[IDAlumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="1" width="88" height="20" uuid="f1973965-75c0-4acc-884c-b6766c7bb4c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="685" y="2" width="64" height="20" uuid="0f53b1e7-a073-4899-8087-dca439031ba6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="2" width="98" height="20" uuid="48a3435b-7390-49b9-8cad-9ea6b59f1494"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Referencia de pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="2" width="70" height="20" uuid="b0245396-7bc6-4f99-ba7b-4de78b6b3259"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Tipo de pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="2" width="61" height="20" uuid="f8c91b0a-e1c9-4277-b8aa-a7bdc1c87e02"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Estatus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="2" width="77" height="20" uuid="e0bbd74e-1195-4bbe-8f1a-f0eef34b6fc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Servicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="2" width="55" height="20" uuid="f08e7394-cd54-4073-85bd-7b6aa42a8aae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="586" y="2" width="87" height="20" uuid="e93d405b-6820-4f41-82be-8a3a5d587f37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Pago total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="55" height="20" uuid="6ecfba95-302d-44df-8141-b2aacdcc280b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{IDAlumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="1" width="98" height="20" uuid="97f7c37c-aae4-4f40-a6be-1895067f7093"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Referencia_P}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="0" width="88" height="20" uuid="4864d20e-7771-43b7-9a44-84248ae22eff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="685" y="1" width="64" height="20" uuid="11c28900-9ad5-4914-a7df-590fd383a5ce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="70" height="20" uuid="cafca400-3de8-4e9b-a6d7-a074d09ff05a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TipoPago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="0" width="61" height="20" uuid="dd030dcc-2f8c-4fd8-abb7-0828781f69de"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Estatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="0" width="77" height="20" uuid="8654e2f3-0952-4bbc-845d-fef3d9bd90b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NombreServicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="0" width="55" height="20" uuid="fdc0cef2-0f2c-4d93-a28e-5714d7300487"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Descuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="586" y="0" width="87" height="20" uuid="f4d06b77-70ef-4206-997e-6698c5a5b2ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PagoTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

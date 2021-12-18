@@ -7,6 +7,7 @@ package Views;
 
 import javax.swing.JOptionPane;
 import BAL.BalUsuarios;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -156,6 +157,15 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre de Usuario:");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Usuario: ");
@@ -200,7 +210,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblUsers);
 
-        btnExecute.setBackground(new java.awt.Color(68, 204, 219));
+        btnExecute.setBackground(new java.awt.Color(0, 153, 255));
         btnExecute.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnExecute.setForeground(new java.awt.Color(255, 255, 255));
         btnExecute.setText("Ejecutar");
@@ -218,12 +228,13 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         IDUsuario.setEnabled(false);
 
-        btnClean.setBackground(new java.awt.Color(0, 102, 204));
+        btnClean.setBackground(new java.awt.Color(232, 59, 45));
         btnClean.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnClean.setForeground(new java.awt.Color(255, 255, 255));
         btnClean.setText("Limpiar");
         btnClean.setBorderPainted(false);
         btnClean.setContentAreaFilled(false);
+        btnClean.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClean.setOpaque(true);
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,6 +362,25 @@ public class Usuarios extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         Limpiar();
     }//GEN-LAST:event_btnCleanActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtNombre.getText().length();
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+         if (!( mayusculas || minusculas) || size>=55)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

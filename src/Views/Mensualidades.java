@@ -8,6 +8,7 @@ package Views;
 import BAL.BalAlumnos;
 import BAL.BalPagos;
 import static Views.Alumnos.txtNoControl;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,9 @@ public class Mensualidades extends javax.swing.JInternalFrame {
         dcFecha.setDate(new Date());
         dcFecha.setEnabled(false);
         txtDescuento.setEnabled(false);
+        txtReferenciaPago.setEnabled(false);
+        txtServicio.setEnabled(false);
+        txtMontoAPagar.setEnabled(false);
     }
     
     public void cargarMensualidades() {
@@ -163,7 +167,7 @@ public class Mensualidades extends javax.swing.JInternalFrame {
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Referencia de pago");
+        jLabel7.setText("Detalle de pago");
         jLabel7.setMinimumSize(new java.awt.Dimension(100, 10));
         jLabel7.setPreferredSize(new java.awt.Dimension(100, 10));
 
@@ -182,6 +186,30 @@ public class Mensualidades extends javax.swing.JInternalFrame {
         jLabel11.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Descuento");
+
+        txtNumeroControl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNumeroControlKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroControlKeyTyped(evt);
+            }
+        });
+
+        txtMontoAPagar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMontoAPagarKeyTyped(evt);
+            }
+        });
+
+        txtDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyTyped(evt);
+            }
+        });
 
         chkDescuento.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         chkDescuento.setForeground(new java.awt.Color(255, 255, 255));
@@ -215,19 +243,24 @@ public class Mensualidades extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblPagos);
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 255));
+        jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Pagar");
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(69, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,7 +300,7 @@ public class Mensualidades extends javax.swing.JInternalFrame {
                                 .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14)
                                 .addComponent(chkDescuento))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -358,8 +391,8 @@ public class Mensualidades extends javax.swing.JInternalFrame {
             
             try {
                 txtReferenciaPago.setText(tblPagos.getValueAt(fila, 0)+"");
-                txtServicio.setText(tblPagos.getValueAt(fila,2)+ "");
-                txtMontoAPagar.setText(tblPagos.getValueAt(fila,4)+"");
+                txtServicio.setText(tblPagos.getValueAt(fila,3)+ "");
+                txtMontoAPagar.setText(tblPagos.getValueAt(fila,5)+"");
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -369,14 +402,27 @@ public class Mensualidades extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblPagosMouseClicked
 
     public void pagarMensualidad(){
-        BalPagos control = new BalPagos();
-        
-        control.Estatus = "Pagado";
-        control.Nota = txtNota.getText();
-        Date dateI =dcFecha.getDate();
-        long d = dateI.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
-        control.Fecha = fecha;
+        int fila = tblPagos.getSelectedRow();
+        if(fila<0){
+            JOptionPane.showMessageDialog(null, "Seleccione una mensualidad");
+        }else{
+            BalPagos control = new BalPagos();
+            control.setIDDetalle(Integer.parseInt(txtReferenciaPago.getText()));
+            control.setReferencia_P(tblPagos.getValueAt(fila, 1)+"");
+            control.setNota(txtNota.getText());
+            Date dateI =dcFecha.getDate();
+            long d = dateI.getTime();
+            java.sql.Date fecha = new java.sql.Date(d);
+            control.setFecha(fecha);
+            if(chkDescuento.isSelected()){
+                control.setDescuento(txtDescuento.getText());
+            }else{
+                control.setDescuento("0");
+            }
+            control.setPagoMensualidad(txtMontoAPagar.getText());
+            control.setEstatus("Pagado");
+            control.pagarMensualidad(control);
+        }
         
     }
     
@@ -386,6 +432,63 @@ public class Mensualidades extends javax.swing.JInternalFrame {
         obtenerMensualidades();
 
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        pagarMensualidad();
+        cargarMensualidades();
+        obtenerMensualidades();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtNumeroControlKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroControlKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        int size = txtNumeroControl.getText().length();
+         if (!numero || size>=8)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumeroControlKeyTyped
+
+    private void txtMontoAPagarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoAPagarKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        int size = txtMontoAPagar.getText().length();
+         if (!numero || size>=5)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMontoAPagarKeyTyped
+
+    private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtDescuento.getText().length();
+        boolean numero = key >= 48 && key <= 57;
+
+         if (!numero || size>=2)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDescuentoKeyTyped
+
+    private void txtNumeroControlKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroControlKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumeroControlKeyPressed
+
+    private void txtDescuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDescuentoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

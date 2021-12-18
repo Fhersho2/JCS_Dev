@@ -22,7 +22,6 @@ public class Conexion {
             } catch (SQLException ex) {
                 //throw new SQLException(ex);
                 JOptionPane.showMessageDialog(null, "No hay conexiones disponibles");
-                
             } catch (ClassNotFoundException ex) {
                 throw new ClassNotFoundException(ex.getMessage());
             }

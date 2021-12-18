@@ -7,6 +7,7 @@ package Views;
 
 import BAL.BalUsuarios;
 import DAL.Conexion;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -28,6 +29,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Login");
         setLocationRelativeTo(null);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/icon.png")));
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException ex) {

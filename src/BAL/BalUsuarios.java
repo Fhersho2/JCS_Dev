@@ -61,34 +61,38 @@ public class BalUsuarios {
     }
 
     public boolean validarUsuario(BalUsuarios usuario) {
-        Conexion conn = new Conexion();
+
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call login(?, ?)}");
-            procedure.setString(1, usuario.getUsername());
-            procedure.setString(2, usuario.getPass());
-            procedure.execute();
-            final ResultSet rs = procedure.getResultSet();
-            if (rs.next()) {
-                setAdminID(rs.getInt("IDUsuario"));
-                setUsername(rs.getString("Usuario"));
-                setFullname(rs.getString("Nombre"));
-                setAdmintype(rs.getString("TipoUsuario"));
-                try {
-                    conn.cerrar();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            Conexion conn = new Conexion();
+            try {
+                CallableStatement procedure = conn.Open().prepareCall("{call login(?, ?)}");
+                procedure.setString(1, usuario.getUsername());
+                procedure.setString(2, usuario.getPass());
+                procedure.execute();
+                final ResultSet rs = procedure.getResultSet();
+                if (rs.next()) {
+                    setAdminID(rs.getInt("IDUsuario"));
+                    setUsername(rs.getString("Usuario"));
+                    setFullname(rs.getString("Nombre"));
+                    setAdmintype(rs.getString("TipoUsuario"));
+                    try {
+                        conn.cerrar();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return true;
                 }
-                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            conn.cerrar();
-        } catch (SQLException ex) {
-            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                conn.cerrar();
+            } catch (SQLException ex) {
+                Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
         }
         return false;
     }
@@ -177,21 +181,52 @@ public class BalUsuarios {
 
     public void modificarUsuario(BalUsuarios usuario) {
         Conexion conn = new Conexion();
+        Conexion conn2 = new Conexion();
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call modificarUsuario(?, ?, ?, ?, ?)}");
-            procedure.setInt(1, usuario.getAdminID());
-            procedure.setString(2, usuario.getFullname());
-            procedure.setString(3, usuario.getUsername());
-            procedure.setString(4, usuario.getPass());
-            procedure.setString(5, usuario.getAdmintype());
-            procedure.executeUpdate();
-            procedure.close();
-            JOptionPane.showMessageDialog(null, "Usuario Modificado con exito");
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+            CallableStatement procedure1 = conn.Open().prepareCall("{call validarUsuario(?)}");
+            procedure1.setString(1, usuario.getUsername());
+            procedure1.executeQuery();
+            final ResultSet rs = procedure1.getResultSet();
+            int cont = 0;
+            while (rs.next()) {
+                cont++;
+            }
+            System.out.println(cont);
+            procedure1.close();
             conn.cerrar();
+            if (cont > 0) {
+                JOptionPane.showMessageDialog(null, "Este usuario ya existe en el sistema");
+            } else {
+                 CallableStatement procedure = conn2.Open().prepareCall("{call modificarUsuario(?, ?, ?, ?, ?)}");
+                    procedure.setInt(1, usuario.getAdminID());
+                    procedure.setString(2, usuario.getFullname());
+                    procedure.setString(3, usuario.getUsername());
+                    procedure.setString(4, usuario.getPass());
+                    procedure.setString(5, usuario.getAdmintype());
+                    procedure.executeUpdate();
+                    procedure.close();
+                    JOptionPane.showMessageDialog(null, "Usuario Modificado con exito");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Conexion conn = new Conexion();
+//        try {
+//            CallableStatement procedure = conn.Open().prepareCall("{call modificarUsuario(?, ?, ?, ?, ?)}");
+//            procedure.setInt(1, usuario.getAdminID());
+//            procedure.setString(2, usuario.getFullname());
+//            procedure.setString(3, usuario.getUsername());
+//            procedure.setString(4, usuario.getPass());
+//            procedure.setString(5, usuario.getAdmintype());
+//            procedure.executeUpdate();
+//            procedure.close();
+//            JOptionPane.showMessageDialog(null, "Usuario Modificado con exito");
+//        } catch (SQLException | ClassNotFoundException ex) {
+//            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        try {
+            conn2.cerrar();
         } catch (SQLException ex) {
             Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }

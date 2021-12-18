@@ -257,32 +257,75 @@ public class BalAlumnos {
         }
         return alumnos;
     }
+    
+    public boolean isNoControlValid(int noControl){
+        try {
+            Conexion conn2 = new Conexion();
+            CallableStatement procedure1 = conn2.Open().prepareCall("{call validarAlumno(?)}");
+            procedure1.setInt(1, noControl);
+            procedure1.executeQuery();
+            final ResultSet rs = procedure1.getResultSet();
+            int cont = 0;
+            while (rs.next()) {
+                cont++;
+            }
+            System.out.println(cont);
+            procedure1.close();
+            conn2.cerrar();
+            if (cont > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+
+    }
 
     public void agregarAlumnos(BalAlumnos alumno) {
         Conexion conn = new Conexion();
+        //Conexion conn2 = new Conexion();
+        
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call agregarAlumno(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            procedure.setInt(1, alumno.getNoControl());
-            procedure.setString(2, alumno.getNombre());
-            procedure.setDate(3, alumno.getFechaNac());
-            procedure.setString(4, alumno.getLugarNac());
-            procedure.setString(5, alumno.getCorreo());
-            procedure.setString(6, alumno.getSemestre());
-            procedure.setString(7, alumno.getGrupo());
-            procedure.setString(8, alumno.getPeriodoF());
-            procedure.setString(9, alumno.getPeriodoE());
-            procedure.setString(10, alumno.getPadreTutor());
-            procedure.setString(11, alumno.getMadre());
-            procedure.setString(12, alumno.getDomicilio());
-            procedure.setString(13, alumno.getTelefono());
-            procedure.setString(14, alumno.getEmergencias());
-            procedure.setString(15, alumno.getEstatus());
-            procedure.setString(16, alumno.getSaldo());
-            procedure.executeQuery();
-            procedure.close();
-            JOptionPane.showMessageDialog(null, "Alumno agregado con exito");
+//            CallableStatement procedure1 = conn2.Open().prepareCall("{call validarAlumno(?)}");
+//            procedure1.setInt(1, alumno.getNoControl());
+//            procedure1.executeQuery();
+//            final ResultSet rs = procedure1.getResultSet();
+//            int cont = 0;
+//            while (rs.next()) {
+//                cont++;
+//            }
+//            System.out.println(cont);
+//            procedure1.close();
+//            conn2.cerrar();
+            if (isNoControlValid(alumno.getNoControl())) {
+                JOptionPane.showMessageDialog(null, "Este alumno ya existe en el sistema");
+            } else {
+                 CallableStatement procedure = conn.Open().prepareCall("{call agregarAlumno(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+                    procedure.setInt(1, alumno.getNoControl());
+                    procedure.setString(2, alumno.getNombre());
+                    procedure.setDate(3, alumno.getFechaNac());
+                    procedure.setString(4, alumno.getLugarNac());
+                    procedure.setString(5, alumno.getCorreo());
+                    procedure.setString(6, alumno.getSemestre());
+                    procedure.setString(7, alumno.getGrupo());
+                    procedure.setString(8, alumno.getPeriodoF());
+                    procedure.setString(9, alumno.getPeriodoE());
+                    procedure.setString(10, alumno.getPadreTutor());
+                    procedure.setString(11, alumno.getMadre());
+                    procedure.setString(12, alumno.getDomicilio());
+                    procedure.setString(13, alumno.getTelefono());
+                    procedure.setString(14, alumno.getEmergencias());
+                    procedure.setString(15, alumno.getEstatus());
+                    procedure.setString(16, alumno.getSaldo());
+                    procedure.executeQuery();
+                    procedure.close();
+                    JOptionPane.showMessageDialog(null, "Alumno agregado con exito");
+            }
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(BalPeriodos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             conn.cerrar();
@@ -379,21 +422,51 @@ public class BalAlumnos {
 
     public void asignarSaldo(int control, String saldo) {
         Conexion conn = new Conexion();
+        Conexion conn2 = new Conexion();
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call asignarSaldo(?,?)}");
-            procedure.setInt(1, control);
-            procedure.setString(2, saldo);
-            procedure.executeQuery();
-            procedure.close();
-            JOptionPane.showMessageDialog(null, "Saldo asignado con exito");
+            CallableStatement procedure1 = conn.Open().prepareCall("{call validarAlumno(?)}");
+            procedure1.setInt(1, control);
+            procedure1.executeQuery();
+            final ResultSet rs = procedure1.getResultSet();
+            int cont = 0;
+            while (rs.next()) {
+                cont++;
+            }
+            System.out.println(cont);
+            procedure1.close();
+            conn.cerrar();
+            if (cont > 0) {
+                CallableStatement procedure = conn2.Open().prepareCall("{call asignarSaldo(?,?)}");
+                procedure.setInt(1, control);
+                procedure.setString(2, saldo);
+                procedure.executeQuery();
+                procedure.close();
+                JOptionPane.showMessageDialog(null, "Saldo asignado con exito");
+                    try {
+                    conn2.cerrar();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            } else {
+                JOptionPane.showMessageDialog(null, "Este usuario no existe en el sistema");
+                 
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        try {
-            conn.cerrar();
-        } catch (SQLException ex) {
-            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+//        try {
+//            CallableStatement procedure = conn.Open().prepareCall("{call asignarSaldo(?,?)}");
+//            procedure.setInt(1, control);
+//            procedure.setString(2, saldo);
+//            procedure.executeQuery();
+//            procedure.close();
+//            JOptionPane.showMessageDialog(null, "Saldo asignado con exito");
+//        } catch (SQLException | ClassNotFoundException ex) {
+//            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+//        } 
+        
     }
 
     public ArrayList<BalAlumnos> generarListaGrupo(String semestre, String grupo, String periodo, String periodot) {

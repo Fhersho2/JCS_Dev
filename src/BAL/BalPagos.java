@@ -15,9 +15,8 @@ import DAL.Conexion;
 import java.sql.Date;
 import java.util.ArrayList;
 
-
 public class BalPagos {
-    
+
     public int IDDetalle;
     public String Referencia_P;
     public String Referencia_S;
@@ -180,8 +179,33 @@ public class BalPagos {
     public void setEstatus(String Estatus) {
         this.Estatus = Estatus;
     }
+
+    public boolean validarReferencia(String referencia){
+        Conexion conn = new Conexion();
+
+        try {
+            CallableStatement procedure1 = conn.Open().prepareCall("{call validarReferencia(?)}");
+            procedure1.setString(1, referencia);
+            procedure1.executeQuery();
+            final ResultSet rs = procedure1.getResultSet();
+            int cont = 0;
+            while (rs.next()) {
+                cont++;
+            }
+            System.out.println(cont);
+            procedure1.close();
+            conn.cerrar();
+            if (cont > 0) {
+                return true;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+
+    }
     
-    public void agregarPagoContado(BalPagos pago){
+    public void agregarPagoContado(BalPagos pago) {
         Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call agregarPago(?,?,?,?,?,?,?,?)}");
@@ -201,8 +225,8 @@ public class BalPagos {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void agregarPagoContadoDetalle(BalPagos pago){
+
+    public void agregarPagoContadoDetalle(BalPagos pago) {
         Conexion conn = new Conexion();
         try {
             CallableStatement procedure = conn.Open().prepareCall("{call agregarPagoDetalle(?,?,?,?,?,?,?,?,?,?)}");
@@ -219,13 +243,13 @@ public class BalPagos {
             procedure.executeQuery();
             procedure.close();
             conn.cerrar();
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public String generarCodigo(){
+
+    public String generarCodigo() {
         Conexion conn = new Conexion();
         ResultSet rs;
         String codigo = "";
@@ -233,7 +257,7 @@ public class BalPagos {
             CallableStatement procedure = conn.Open().prepareCall("{call contarFilas()}");
             procedure.execute();
             rs = procedure.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 codigo = rs.getString("Cantidad");
             }
             procedure.close();
@@ -243,10 +267,10 @@ public class BalPagos {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "RP000" +  (Integer.parseInt(codigo) + 1);
-    } 
-    
-    public ArrayList<BalPagos> listarPagos(){
+        return "RP000" + (Integer.parseInt(codigo) + 1);
+    }
+
+    public ArrayList<BalPagos> listarPagos() {
         Conexion conn = new Conexion();
         ResultSet rs;
         ArrayList<BalPagos> pagos = new ArrayList<>();
@@ -254,7 +278,7 @@ public class BalPagos {
             CallableStatement procedure = conn.Open().prepareCall("{call cargarMensualidad()}");
             procedure.execute();
             rs = procedure.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 BalPagos pago = new BalPagos();
                 pago.IDDetalle = rs.getInt("IDDetalle");
                 pago.Referencia_P = rs.getString("Referencia_P");
@@ -275,8 +299,54 @@ public class BalPagos {
         }
         return pagos;
     }
-    
-    
-    
-    
+
+    public void pagarMensualidad(BalPagos pago) {
+        Conexion conn = new Conexion();
+        Conexion conn2 = new Conexion();
+        Conexion conn3 = new Conexion();
+
+        try {
+            CallableStatement procedure = conn.Open().prepareCall("{call pagoMensualidad(?,?,?,?,?,?)}");
+            procedure.setInt(1, pago.getIDDetalle());
+            procedure.setString(2, pago.getNota());
+            procedure.setDate(3, pago.getFecha());
+            procedure.setString(4, pago.getDescuento());
+            procedure.setString(5, pago.getPagoMensualidad());
+            procedure.setString(6, pago.getEstatus());
+            procedure.executeUpdate();
+            procedure.close();
+            conn.cerrar();
+//
+            CallableStatement procedure2 = conn2.Open().prepareCall("{call validarPago(?)}");
+            procedure2.setString(1, pago.getReferencia_P());
+            procedure2.executeUpdate();
+
+            final ResultSet rs = procedure2.getResultSet();
+            int cont = 0;
+            while (rs.next()) {
+                cont++;
+            }
+            System.out.println(cont);
+            procedure2.close();
+            conn2.cerrar();
+            if (cont > 0) {
+                JOptionPane.showMessageDialog(null, "Pago realizado con exito");
+            } else {
+                CallableStatement procedure3 = conn3.Open().prepareCall("{call finalizarPago(?)}");
+                procedure3.setString(1, pago.getReferencia_P());
+                procedure3.executeQuery();
+                procedure3.close();
+                JOptionPane.showMessageDialog(null, "Pago realizado con exito, usted ya no debe nada");
+                try {
+                    conn3.cerrar();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(BalUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
 }

@@ -7,6 +7,7 @@ package Views;
 
 import BAL.BalPeriodos;
 import BAL.ObtenerFecha;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +34,18 @@ public class Periodos extends javax.swing.JInternalFrame {
         initComponents();
         this.setTitle("Periodos");
         //txtIdPeriodo.setVisible(false);
+        txtFechaInicio.setEnabled(false);
+        txtFechaInicio.getCalendarButton().setEnabled(true);
+        
+        txtFechaFin.setEnabled(false);
+        txtFechaFin.getCalendarButton().setEnabled(true);
+        
+        txtFechaInicio.setDate(new Date());
+        txtFechaFin.setDate(new Date());
+
+                
+
+
 
     }
 
@@ -165,6 +178,15 @@ public class Periodos extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Año:");
 
+        txtAño.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAñoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAñoKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Periodo:");
 
         cboPeriodos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Enero-Agosto", "Agosto-Diciembre" }));
@@ -196,7 +218,12 @@ public class Periodos extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblPeriodos);
 
+        btnEjecutar.setBackground(new java.awt.Color(0, 153, 255));
+        btnEjecutar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnEjecutar.setForeground(new java.awt.Color(255, 255, 255));
         btnEjecutar.setText("Ejecutar");
+        btnEjecutar.setBorderPainted(false);
+        btnEjecutar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEjecutarActionPerformed(evt);
@@ -314,6 +341,25 @@ public class Periodos extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_tblPeriodosMouseClicked
+
+    private void txtAñoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAñoKeyPressed
+        // TODO add your handling code here:
+              System.out.println("aaaaa");
+
+    }//GEN-LAST:event_txtAñoKeyPressed
+
+    private void txtAñoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAñoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        System.out.println("akjsdhaskjhdkahs");
+        int size = (""+txtAño.getYear()).length();
+        boolean isNumber = key >= 48 && key <=57;
+
+         if (!isNumber || size>=4)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAñoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

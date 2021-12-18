@@ -6,6 +6,7 @@
 package Views;
 
 import BAL.BalServicios;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -152,6 +153,14 @@ public class Servicios extends javax.swing.JInternalFrame {
         jLabel2.setText("Nombre:");
 
         txtServicioNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtServicioNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtServicioNombreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtServicioNombreKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -159,6 +168,9 @@ public class Servicios extends javax.swing.JInternalFrame {
 
         txtServicioCosto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtServicioCosto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtServicioCostoKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtServicioCostoKeyTyped(evt);
             }
@@ -188,8 +200,12 @@ public class Servicios extends javax.swing.JInternalFrame {
         cboOpciones.setRequestFocusEnabled(false);
         cboOpciones.setVerifyInputWhenFocusTarget(false);
 
+        btnEjecutar.setBackground(new java.awt.Color(0, 153, 255));
         btnEjecutar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnEjecutar.setForeground(new java.awt.Color(255, 255, 255));
         btnEjecutar.setText("Ejecutar");
+        btnEjecutar.setBorderPainted(false);
+        btnEjecutar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEjecutar.setFocusPainted(false);
         btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,9 +213,12 @@ public class Servicios extends javax.swing.JInternalFrame {
             }
         });
 
+        btnLimpiar.setBackground(new java.awt.Color(232, 59, 45));
         btnLimpiar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorderPainted(false);
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLimpiar.setRequestFocusEnabled(false);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,6 +326,35 @@ public class Servicios extends javax.swing.JInternalFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtServicioCostoKeyTyped
+
+    private void txtServicioNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServicioNombreKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_txtServicioNombreKeyPressed
+
+    private void txtServicioNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServicioNombreKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtServicioNombre.getText().length();
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean espacio = key == 32;
+
+         if (!(minusculas || mayusculas || espacio) || size>=55)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtServicioNombreKeyTyped
+
+    private void txtServicioCostoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServicioCostoKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtServicioCostoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

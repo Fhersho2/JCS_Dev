@@ -8,6 +8,7 @@ package Views;
 import BAL.BalAlumnos;
 import BAL.BalPagos;
 import BAL.BalServicios;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         txtFecha.setDate(new Date());
         txtFecha.setEnabled(false);
         txtPrecio.setEditable(false);
+        
     }
 
     public void cargarServicios() {
@@ -109,7 +111,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         java.sql.Date fecha = new java.sql.Date(d);
         control.setFecha(fecha);
         control.setIDPeriodo(Integer.parseInt(periodo));
-        control.setCosto("13400");
+        control.setCosto(txtPrecio.getText());
         control.setTipoPago("Contado");
         control.setEstatus("Pagado");
         control.agregarPagoContado(control);
@@ -453,6 +455,12 @@ public class Pagos extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Referencia:");
 
+        txtReferencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtReferenciaKeyTyped(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Clave Alumno:");
@@ -465,6 +473,9 @@ public class Pagos extends javax.swing.JInternalFrame {
         txtNoControl.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNoControlKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoControlKeyTyped(evt);
             }
         });
 
@@ -557,6 +568,14 @@ public class Pagos extends javax.swing.JInternalFrame {
         jLabel9.setText("Nota:");
 
         txtDescuento.setEditable(false);
+        txtDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyTyped(evt);
+            }
+        });
 
         chkDescuento.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         chkDescuento.setForeground(new java.awt.Color(255, 255, 255));
@@ -729,29 +748,45 @@ public class Pagos extends javax.swing.JInternalFrame {
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         // TODO add your handling code here:
         //pagoContado();
-        if(chkAplicarSaldo.isSelected() && chkDescuento.isSelected()){
-            pagoContadoConSaldoAndDescuento();
-            generarCodigo();
-            cargarAlumnos();
-        }
-        else if(chkDescuento.isSelected()){
-            pagoContadoConDescuento();
-            generarCodigo();
-            
-        }else if(chkAplicarSaldo.isSelected()){
-            pagoContadoConSaldo();
-            generarCodigo();
-            cargarAlumnos();
-        }else if(chkMensualidad.isSelected()){
-            pagoMensualidad();
-            generarCodigo();
-            
-        }
-        else{
-            pagoContado();
-            generarCodigo();
+        
+        BalPagos pagos = new BalPagos();
+        BalAlumnos alumno = new BalAlumnos();
+        //pagos.validarReferencia(s);
+        
+        if(!pagos.validarReferencia(txtReferencia.getText())){
+            if(alumno.isNoControlValid(Integer.parseInt(txtNoControl.getText()))){
+                if(chkAplicarSaldo.isSelected() && chkDescuento.isSelected()){
+                pagoContadoConSaldoAndDescuento();
+                generarCodigo();
+                cargarAlumnos();
+                }
+                else if(chkDescuento.isSelected()){
+                    pagoContadoConDescuento();
+                    generarCodigo();
 
+                }else if(chkAplicarSaldo.isSelected()){
+                    pagoContadoConSaldo();
+                    generarCodigo();
+                    cargarAlumnos();
+                }else if(chkMensualidad.isSelected()){
+                    pagoMensualidad();
+                    generarCodigo();
+
+                }
+                else{
+                    pagoContado();
+                    generarCodigo();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Numero de control no encontrado. Ingrese uno valido");
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Referencia existente, generando nueva referencia intente otra vez");
+            generarCodigo();
         }
+        
+        
     }//GEN-LAST:event_btnPagarActionPerformed
 
     private void cboServiciosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboServiciosItemStateChanged
@@ -790,7 +825,7 @@ public class Pagos extends javax.swing.JInternalFrame {
 
     private void txtNoControlKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyPressed
         // TODO add your handling code here:
-        if(txtNoControl.getText().length()>8){
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
             evt.consume();
         }
     }//GEN-LAST:event_txtNoControlKeyPressed
@@ -824,6 +859,48 @@ public class Pagos extends javax.swing.JInternalFrame {
         System.out.println("askjhd ajkshdjkasd ");
         
     }//GEN-LAST:event_formMouseEntered
+
+    private void txtReferenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReferenciaKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtReferencia.getText().length();
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+        boolean numero = key >= 48 && key <= 57;
+         if (!(numero || mayusculas || minusculas) || size>=8)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtReferenciaKeyTyped
+
+    private void txtNoControlKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtNoControl.getText().length();
+        boolean numero = key >= 48 && key <= 57;
+         if (!numero || size>=8)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNoControlKeyTyped
+
+    private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtDescuento.getText().length();
+        boolean numero = key >= 48 && key <= 57;
+         if (!numero || size>=2)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDescuentoKeyTyped
+
+    private void txtDescuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyPressed
+        // TODO add your handling code here:
+        if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDescuentoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

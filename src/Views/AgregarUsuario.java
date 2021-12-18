@@ -67,6 +67,12 @@ public class AgregarUsuario extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Contraseña:");
 
+        txtNoControl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoControlKeyTyped(evt);
+            }
+        });
+
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassActionPerformed(evt);
@@ -150,6 +156,17 @@ public class AgregarUsuario extends javax.swing.JDialog {
         // TODO add your handling code here:
         agregarUsuario();
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void txtNoControlKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        int size = txtNoControl.getText().length();
+        boolean numero = key >= 48 && key <= 57;
+         if (!numero || size>=8)
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNoControlKeyTyped
 
     /**
      * @param args the command line arguments
