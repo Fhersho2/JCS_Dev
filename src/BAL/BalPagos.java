@@ -27,6 +27,15 @@ public class BalPagos {
     public String PagoMensualidad;
     public String Descuento;
     public String PagoTotal;
+    public String TipoDePago;
+
+    public String getTipoDePago() {
+        return TipoDePago;
+    }
+
+    public void setTipoDePago(String TipoDePago) {
+        this.TipoDePago = TipoDePago;
+    }
 
     public String getPagoTotal() {
         return PagoTotal;
@@ -106,6 +115,24 @@ public class BalPagos {
     public String Costo;
     public String TipoPago;
     public String Estatus;
+    public String banco;
+    public String digitos;
+
+    public String getBanco() {
+        return banco;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public String getDigitos() {
+        return digitos;
+    }
+
+    public void setDigitos(String digitos) {
+        this.digitos = digitos;
+    }
 
     public String getServicio() {
         return Servicio;
@@ -217,6 +244,7 @@ public class BalPagos {
             procedure.setString(6, pago.getCosto());
             procedure.setString(7, pago.getTipoPago());
             procedure.setString(8, pago.getEstatus());
+
             procedure.executeQuery();
             procedure.close();
             conn.cerrar();
@@ -229,7 +257,7 @@ public class BalPagos {
     public void agregarPagoContadoDetalle(BalPagos pago) {
         Conexion conn = new Conexion();
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call agregarPagoDetalle(?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call agregarPagoDetalle(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             procedure.setString(1, pago.getReferencia_P());
             procedure.setString(2, pago.getReferencia_S());
             procedure.setString(3, pago.getNota());
@@ -240,6 +268,11 @@ public class BalPagos {
             procedure.setString(8, pago.getDescuento());
             procedure.setString(9, pago.getPagoTotal());
             procedure.setString(10, pago.getEstatus());
+            procedure.setString(11, pago.getTipoDePago());
+            procedure.setString(12, pago.getDigitos());
+            procedure.setString(13, pago.getBanco());
+
+
             procedure.executeQuery();
             procedure.close();
             conn.cerrar();
@@ -306,13 +339,17 @@ public class BalPagos {
         Conexion conn3 = new Conexion();
 
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call pagoMensualidad(?,?,?,?,?,?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call pagoMensualidad(?,?,?,?,?,?,?)}");
             procedure.setInt(1, pago.getIDDetalle());
             procedure.setString(2, pago.getNota());
             procedure.setDate(3, pago.getFecha());
             procedure.setString(4, pago.getDescuento());
             procedure.setString(5, pago.getPagoMensualidad());
             procedure.setString(6, pago.getEstatus());
+            procedure.setString(7, pago.getTipoDePago());
+            
+
+
             procedure.executeUpdate();
             procedure.close();
             conn.cerrar();

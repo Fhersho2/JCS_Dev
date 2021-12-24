@@ -158,7 +158,7 @@ public class Home extends javax.swing.JFrame {
         btn_Alumnos.setBackground(new java.awt.Color(255, 255, 255));
         btn_Alumnos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_Alumnos.setForeground(new java.awt.Color(38, 70, 83));
-        btn_Alumnos.setText("Alumnos");
+        btn_Alumnos.setText("ALUMNOS");
         btn_Alumnos.setBorderPainted(false);
         btn_Alumnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Alumnos.setFocusPainted(false);
@@ -179,7 +179,7 @@ public class Home extends javax.swing.JFrame {
         btn_Usuarios.setBackground(new java.awt.Color(255, 255, 255));
         btn_Usuarios.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_Usuarios.setForeground(new java.awt.Color(38, 70, 83));
-        btn_Usuarios.setText("Usuarios");
+        btn_Usuarios.setText("USUARIOS");
         btn_Usuarios.setBorderPainted(false);
         btn_Usuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Usuarios.setFocusPainted(false);
@@ -200,7 +200,7 @@ public class Home extends javax.swing.JFrame {
         btn_Servicios.setBackground(new java.awt.Color(255, 255, 255));
         btn_Servicios.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_Servicios.setForeground(new java.awt.Color(38, 70, 83));
-        btn_Servicios.setText("Servicios");
+        btn_Servicios.setText("SERVICIOS");
         btn_Servicios.setBorderPainted(false);
         btn_Servicios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Servicios.setFocusPainted(false);
@@ -221,7 +221,7 @@ public class Home extends javax.swing.JFrame {
         btn_pagos.setBackground(new java.awt.Color(255, 255, 255));
         btn_pagos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_pagos.setForeground(new java.awt.Color(38, 70, 83));
-        btn_pagos.setText("Pagos");
+        btn_pagos.setText("PAGOS");
         btn_pagos.setBorderPainted(false);
         btn_pagos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_pagos.setFocusPainted(false);
@@ -242,7 +242,7 @@ public class Home extends javax.swing.JFrame {
         btn_Mensualidades.setBackground(new java.awt.Color(255, 255, 255));
         btn_Mensualidades.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_Mensualidades.setForeground(new java.awt.Color(38, 70, 83));
-        btn_Mensualidades.setText("Mensualidades");
+        btn_Mensualidades.setText("MENSUALIDADES");
         btn_Mensualidades.setBorderPainted(false);
         btn_Mensualidades.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Mensualidades.setFocusPainted(false);
@@ -263,7 +263,7 @@ public class Home extends javax.swing.JFrame {
         btn_reportes.setBackground(new java.awt.Color(255, 255, 255));
         btn_reportes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_reportes.setForeground(new java.awt.Color(38, 70, 83));
-        btn_reportes.setText("Reportes");
+        btn_reportes.setText("REPORTES");
         btn_reportes.setBorderPainted(false);
         btn_reportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_reportes.setFocusPainted(false);
@@ -284,7 +284,7 @@ public class Home extends javax.swing.JFrame {
         btn_periodos.setBackground(new java.awt.Color(255, 255, 255));
         btn_periodos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_periodos.setForeground(new java.awt.Color(38, 70, 83));
-        btn_periodos.setText("Periodos");
+        btn_periodos.setText("PERIODOS");
         btn_periodos.setBorderPainted(false);
         btn_periodos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_periodos.setFocusPainted(false);
@@ -307,19 +307,19 @@ public class Home extends javax.swing.JFrame {
         PaneNavBarLayout.setHorizontalGroup(
             PaneNavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PaneNavBarLayout.createSequentialGroup()
-                .addComponent(btn_Alumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Alumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_Servicios, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Servicios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_Mensualidades, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_Mensualidades, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_periodos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PaneNavBarLayout.setVerticalGroup(
@@ -371,7 +371,7 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LogOut)
+                .addComponent(LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
             .addComponent(PaneNavBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -409,7 +409,7 @@ public class Home extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 913, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

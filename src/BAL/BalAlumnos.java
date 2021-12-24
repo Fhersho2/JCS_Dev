@@ -36,7 +36,7 @@ public class BalAlumnos {
     public String Telefono;
     public String Emergencias;
     public String Estatus;
-    public String Saldo;
+    public String CodigoPostal;
     public String Usuario;
     public String Password;
 
@@ -176,12 +176,12 @@ public class BalAlumnos {
         this.Estatus = Estatus;
     }
 
-    public String getSaldo() {
-        return Saldo;
+    public String getCodigoPostal() {
+        return CodigoPostal;
     }
 
-    public void setSaldo(String Saldo) {
-        this.Saldo = Saldo;
+    public void setCodigoPostal(String Saldo) {
+        this.CodigoPostal = Saldo;
     }
 
     public ArrayList<BalAlumnos> listarAlumnos() {
@@ -198,7 +198,7 @@ public class BalAlumnos {
                 alumno.Nombre = rs.getString("Nombre");
                 alumno.Semestre = rs.getString("Semestre");
                 alumno.Estatus = rs.getString("Estatus");
-                alumno.Saldo = rs.getString("Saldo");
+                alumno.CodigoPostal = rs.getString("CodigoPostal");
                 alumnos.add(alumno);
             }
             procedure.close();
@@ -241,7 +241,7 @@ public class BalAlumnos {
                 alumno.Telefono = rs.getString("Telefono");
                 alumno.Emergencias = rs.getString("Emergencias");
                 alumno.Estatus = rs.getString("Estatus");
-                alumno.Saldo = rs.getString("Saldo");
+                alumno.CodigoPostal = rs.getString("CodigoPostal");
                 alumnos.add(alumno);
             }
             procedure.close();
@@ -319,7 +319,7 @@ public class BalAlumnos {
                     procedure.setString(13, alumno.getTelefono());
                     procedure.setString(14, alumno.getEmergencias());
                     procedure.setString(15, alumno.getEstatus());
-                    procedure.setString(16, alumno.getSaldo());
+                    procedure.setString(16, alumno.getCodigoPostal());
                     procedure.executeQuery();
                     procedure.close();
                     JOptionPane.showMessageDialog(null, "Alumno agregado con exito");
@@ -337,7 +337,7 @@ public class BalAlumnos {
     public void modificarAlumno(BalAlumnos alumno) {
         Conexion conn = new Conexion();
         try {
-            CallableStatement procedure = conn.Open().prepareCall("{call modificarAlumno(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement procedure = conn.Open().prepareCall("{call modificarAlumno(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)}");
             procedure.setInt(1, alumno.getNoControl());
             procedure.setString(2, alumno.getNombre());
             procedure.setDate(3, alumno.getFechaNac());
@@ -353,6 +353,7 @@ public class BalAlumnos {
             procedure.setString(13, alumno.getTelefono());
             procedure.setString(14, alumno.getEmergencias());
             procedure.setString(15, alumno.getEstatus());
+            procedure.setString(16, alumno.getCodigoPostal());
             procedure.executeQuery();
             procedure.close();
             JOptionPane.showMessageDialog(null, "Alumno modificado  con exito");
@@ -420,54 +421,6 @@ public class BalAlumnos {
         }
     }
 
-    public void asignarSaldo(int control, String saldo) {
-        Conexion conn = new Conexion();
-        Conexion conn2 = new Conexion();
-        try {
-            CallableStatement procedure1 = conn.Open().prepareCall("{call validarAlumno(?)}");
-            procedure1.setInt(1, control);
-            procedure1.executeQuery();
-            final ResultSet rs = procedure1.getResultSet();
-            int cont = 0;
-            while (rs.next()) {
-                cont++;
-            }
-            System.out.println(cont);
-            procedure1.close();
-            conn.cerrar();
-            if (cont > 0) {
-                CallableStatement procedure = conn2.Open().prepareCall("{call asignarSaldo(?,?)}");
-                procedure.setInt(1, control);
-                procedure.setString(2, saldo);
-                procedure.executeQuery();
-                procedure.close();
-                JOptionPane.showMessageDialog(null, "Saldo asignado con exito");
-                    try {
-                    conn2.cerrar();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-            } else {
-                JOptionPane.showMessageDialog(null, "Este usuario no existe en el sistema");
-                 
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-//        try {
-//            CallableStatement procedure = conn.Open().prepareCall("{call asignarSaldo(?,?)}");
-//            procedure.setInt(1, control);
-//            procedure.setString(2, saldo);
-//            procedure.executeQuery();
-//            procedure.close();
-//            JOptionPane.showMessageDialog(null, "Saldo asignado con exito");
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(BalAlumnos.class.getName()).log(Level.SEVERE, null, ex);
-//        } 
-        
-    }
 
     public ArrayList<BalAlumnos> generarListaGrupo(String semestre, String grupo, String periodo, String periodot) {
         Conexion conn = new Conexion();

@@ -13,7 +13,7 @@ public class Conexion {
         String password = "4r34s1st3m4s";
 //        String url = "jdbc:mysql://localhost:3306/ceuarkos?noAccessToProcedureBodies=true";
 //        String username = "root";
-//        String password = "2240467";
+//        String password = "";
         if (cnx == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");

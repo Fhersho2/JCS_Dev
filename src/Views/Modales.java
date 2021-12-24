@@ -25,11 +25,6 @@ public class Modales extends javax.swing.JFrame {
         vista.setVisible(true);
     }
     
-    public void modalSaldo(String Control){
-        AgregarSaldo vista = new AgregarSaldo(this,true);
-        vista.txtNoControl.setText(Control);
-        vista.setVisible(true);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

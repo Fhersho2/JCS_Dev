@@ -94,7 +94,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         txtTelefono.setText("");
         txtEmergencias.setText("");
         cboEstatus.setSelectedIndex(0);
-        txtSaldo.setText("");
+        txtCodigoPostal.setText("");
         actualizarDatos();
     }
 
@@ -154,11 +154,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             alumno.setTelefono(txtTelefono.getText());
             alumno.setEmergencias(txtEmergencias.getText());
             alumno.setEstatus(cboEstatus.getSelectedItem().toString());
-            if (txtSaldo.getText().equals("")) {
-                alumno.setSaldo("0");
-            } else {
-                alumno.setSaldo(txtSaldo.getText());
-            }
+            alumno.setCodigoPostal(txtCodigoPostal.getText());
+            
             alumno.agregarAlumnos(alumno);
             actualizarDatos();
         }
@@ -191,6 +188,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
             alumno.setTelefono(txtTelefono.getText());
             alumno.setEmergencias(txtEmergencias.getText());
             alumno.setEstatus(cboEstatus.getSelectedItem().toString());
+            alumno.setCodigoPostal(txtCodigoPostal.getText());
             alumno.modificarAlumno(alumno);
             actualizarDatos();
         }
@@ -268,10 +266,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         txtDomicilio = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        txtSaldo = new javax.swing.JTextField();
+        txtCodigoPostal = new javax.swing.JTextField();
         cboEstatus = new javax.swing.JComboBox<>();
         btnAsignarU = new javax.swing.JButton();
-        btnAsignarS = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         cboSemestreL = new javax.swing.JComboBox<>();
@@ -311,7 +308,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
         jLabel13.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Datos generales del alumno");
+        jLabel13.setText("DATOS GENERALES DEL ALUMNO");
 
         jPanel3.setBackground(new java.awt.Color(42, 157, 143));
 
@@ -405,15 +402,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         cboAcciones.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cboAcciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Modificar", "Eliminar" }));
         cboAcciones.setRequestFocusEnabled(false);
-        cboAcciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboAccionesActionPerformed(evt);
-            }
-        });
 
-        btnLimpiar.setBackground(new java.awt.Color(232, 59, 45));
+        btnLimpiar.setBackground(new java.awt.Color(155, 155, 155));
         btnLimpiar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorderPainted(false);
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -424,9 +415,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEjecutar.setBackground(new java.awt.Color(0, 153, 255));
+        btnEjecutar.setBackground(new java.awt.Color(153, 153, 153));
         btnEjecutar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnEjecutar.setForeground(new java.awt.Color(255, 255, 255));
         btnEjecutar.setText("Ejecutar");
         btnEjecutar.setBorderPainted(false);
         btnEjecutar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -437,9 +427,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBuscarAlumno.setBackground(new java.awt.Color(0, 153, 255));
+        btnBuscarAlumno.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscarAlumno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnBuscarAlumno.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarAlumno.setText("Search");
         btnBuscarAlumno.setBorderPainted(false);
         btnBuscarAlumno.addActionListener(new java.awt.event.ActionListener() {
@@ -601,6 +590,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         });
 
         txtDomicilio.setColumns(20);
+        txtDomicilio.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtDomicilio.setRows(5);
         jScrollPane1.setViewportView(txtDomicilio);
 
@@ -610,20 +600,20 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
         jLabel18.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Saldo a favor");
+        jLabel18.setText("Codigo postal");
 
-        txtSaldo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtSaldo.addActionListener(new java.awt.event.ActionListener() {
+        txtCodigoPostal.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtCodigoPostal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSaldoActionPerformed(evt);
+                txtCodigoPostalActionPerformed(evt);
             }
         });
-        txtSaldo.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCodigoPostal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSaldoKeyPressed(evt);
+                txtCodigoPostalKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSaldoKeyTyped(evt);
+                txtCodigoPostalKeyTyped(evt);
             }
         });
 
@@ -650,7 +640,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                     .addComponent(txtMadre)
-                    .addComponent(txtSaldo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCodigoPostal, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtEmergencias, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtTelefono)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -690,14 +680,13 @@ public class Alumnos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addContainerGap())
         );
 
-        btnAsignarU.setBackground(new java.awt.Color(0, 204, 51));
+        btnAsignarU.setBackground(new java.awt.Color(153, 153, 153));
         btnAsignarU.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnAsignarU.setForeground(new java.awt.Color(255, 255, 255));
         btnAsignarU.setText("Asignar Usuario");
         btnAsignarU.setBorderPainted(false);
         btnAsignarU.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -705,20 +694,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
         btnAsignarU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAsignarUActionPerformed(evt);
-            }
-        });
-
-        btnAsignarS.setBackground(new java.awt.Color(0, 153, 255));
-        btnAsignarS.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnAsignarS.setForeground(new java.awt.Color(255, 255, 255));
-        btnAsignarS.setText("Asignar Saldo");
-        btnAsignarS.setBorderPainted(false);
-        btnAsignarS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAsignarS.setFocusPainted(false);
-        btnAsignarS.setRequestFocusEnabled(false);
-        btnAsignarS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsignarSActionPerformed(evt);
             }
         });
 
@@ -732,8 +707,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAsignarS, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
                         .addComponent(btnAsignarU)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -747,8 +720,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(btnAsignarU, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignarS, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAsignarU, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -798,9 +770,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tblAlumnos);
 
-        btnBuscar.setBackground(new java.awt.Color(0, 153, 255));
+        btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
         btnBuscar.setBorderPainted(false);
         btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -811,9 +782,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnPendientes.setBackground(new java.awt.Color(242, 170, 23));
+        btnPendientes.setBackground(new java.awt.Color(153, 153, 153));
         btnPendientes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnPendientes.setForeground(new java.awt.Color(255, 255, 255));
         btnPendientes.setText("Pendientes");
         btnPendientes.setBorderPainted(false);
         btnPendientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -824,9 +794,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBajas.setBackground(new java.awt.Color(232, 59, 45));
+        btnBajas.setBackground(new java.awt.Color(153, 153, 153));
         btnBajas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnBajas.setForeground(new java.awt.Color(255, 255, 255));
         btnBajas.setText("Inactivos");
         btnBajas.setBorderPainted(false);
         btnBajas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -837,9 +806,8 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnActivos.setBackground(new java.awt.Color(0, 204, 51));
+        btnActivos.setBackground(new java.awt.Color(153, 153, 153));
         btnActivos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnActivos.setForeground(new java.awt.Color(255, 255, 255));
         btnActivos.setText("Activos");
         btnActivos.setBorderPainted(false);
         btnActivos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -938,17 +906,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboPeriodoActionPerformed
 
-    private void cboAccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAccionesActionPerformed
-        // TODO add your handling code here:
-        if (cboAcciones.getSelectedItem().equals("Agregar")) {
-            txtSaldo.setEditable(true);
-        } else if (cboAcciones.getSelectedItem().equals("Modificar")) {
-            txtSaldo.setEditable(false);
-        } else {
-            txtSaldo.setEditable(false);
-        }
-    }//GEN-LAST:event_cboAccionesActionPerformed
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
@@ -963,9 +920,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmergenciasActionPerformed
 
-    private void txtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActionPerformed
+    private void txtCodigoPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoPostalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSaldoActionPerformed
+    }//GEN-LAST:event_txtCodigoPostalActionPerformed
 
     private void btnAsignarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarUActionPerformed
         // TODO add your handling code here:
@@ -976,15 +933,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
             modalv.modalUsuario(txtNoControl.getText());
         }
     }//GEN-LAST:event_btnAsignarUActionPerformed
-
-    private void btnAsignarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarSActionPerformed
-        if (txtNoControl.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "No seleccionaste alumno");
-        } else {
-            Modales modals = new Modales();
-            modals.modalSaldo(txtNoControl.getText());
-        }
-    }//GEN-LAST:event_btnAsignarSActionPerformed
 
     private void btnActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivosActionPerformed
         model.setNumRows(0);
@@ -1111,7 +1059,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 txtTelefono.setText(modelo.get(0).Telefono);
                 txtEmergencias.setText(modelo.get(0).Emergencias);
                 cboEstatus.setSelectedItem(modelo.get(0).Estatus);
-                txtSaldo.setText(modelo.get(0).Saldo);
+                txtCodigoPostal.setText(modelo.get(0).CodigoPostal);
                 actualizarDatos();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -1217,7 +1165,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtMadreKeyTyped
 
-    private void txtSaldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoKeyTyped
+    private void txtCodigoPostalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoPostalKeyTyped
         // TODO add your handling code here:
         int key = evt.getKeyChar();
         
@@ -1227,7 +1175,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
         {
             evt.consume();
         }
-    }//GEN-LAST:event_txtSaldoKeyTyped
+    }//GEN-LAST:event_txtCodigoPostalKeyTyped
 
     private void txtLugarNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarNKeyTyped
         // TODO add your handling code here:
@@ -1268,17 +1216,16 @@ public class Alumnos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtMadreKeyPressed
 
-    private void txtSaldoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoKeyPressed
+    private void txtCodigoPostalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoPostalKeyPressed
         // TODO add your handling code here:
         if(evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V){
             evt.consume();
         }
-    }//GEN-LAST:event_txtSaldoKeyPressed
+    }//GEN-LAST:event_txtCodigoPostalKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivos;
-    private javax.swing.JButton btnAsignarS;
     private javax.swing.JButton btnAsignarU;
     private javax.swing.JButton btnBajas;
     private javax.swing.JButton btnBuscar;
@@ -1319,6 +1266,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtCodigoPostal;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextArea txtDomicilio;
     private javax.swing.JTextField txtEmergencias;
@@ -1330,7 +1278,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombreA;
     private javax.swing.JTextField txtPadre;
     private com.toedter.calendar.JDateChooser txtPeriodoL;
-    private javax.swing.JTextField txtSaldo;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

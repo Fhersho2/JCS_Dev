@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
  */
 public class Pagos extends javax.swing.JInternalFrame {
 
-    /**
+    /** 
      * Creates new form Pagos
      */
     String admin;
@@ -46,13 +46,36 @@ public class Pagos extends javax.swing.JInternalFrame {
         this.setTitle("Pagos");
         txtReferencia.setEditable(false);
         cboMeses.setEnabled(false);
-        txtSaldo.setEditable(false);
+        //txtSaldo.setEditable(false);
         txtFecha.setDate(new Date());
         txtFecha.setEnabled(false);
         txtPrecio.setEditable(false);
-        
-    }
+        txtConDescuento.setEditable(false);
+        txtDescuento.setText("0");
+        txtDigitos.setEnabled(false);
+        txtBanco.setEnabled(false);
+        tblAlumnos.setAutoCreateRowSorter(true);
 
+    }
+    
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int i, int i1) {
+            return false; //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    };
+    
+
+
+
+
+
+
+//ordeno la tabla tomando en cuenta la columna cero
+    
+    
+    
     public void cargarServicios() {
         BalServicios control = new BalServicios();
         modelo = control.listarServicios();
@@ -70,7 +93,33 @@ public class Pagos extends javax.swing.JInternalFrame {
     
     public void cargarAlumnos(){
         BalAlumnos alumnos = new BalAlumnos();
-           modeloAlumnos= alumnos.listarAlumnos();
+           
+        model.setNumRows(0);
+        model.setColumnCount(0);
+        model.addColumn("NoControl");
+        model.addColumn("Nombre");
+        model.addColumn("Semestre");
+        model.addColumn("Estatus");
+        tblAlumnos.getTableHeader().setReorderingAllowed(false);
+        ArrayList<BalAlumnos> modelo1;
+        modelo1 = alumnos.listarAlumnos();
+        try {
+            int cantidad = modelo1.size();
+            model.setNumRows(cantidad);
+            int x = 0;
+            Iterator<BalAlumnos> itrAlumnos = modelo1.iterator();
+            while (itrAlumnos.hasNext()) {
+                BalAlumnos alumno = itrAlumnos.next();
+                model.setValueAt(alumno.NoControl, x, 0);
+                model.setValueAt(alumno.Nombre, x, 1);
+                model.setValueAt(alumno.Semestre, x, 2);
+                model.setValueAt(alumno.Estatus, x, 3);
+                x++;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        tblAlumnos.setModel(model);
     }
     
 
@@ -98,6 +147,14 @@ public class Pagos extends javax.swing.JInternalFrame {
         control.setDescuento("0");
         control.setPagoTotal(txtPrecio.getText());
         control.setEstatus("Pagado");
+        if(chkTipoDePago.isSelected()){
+            control.setTipoDePago("Pago con tarjeta");
+        }else{
+            control.setTipoDePago("Pago en efectivo");
+        }
+        control.setBanco(txtBanco.getText());
+        control.setDigitos(txtDigitos.getText());
+
         control.agregarPagoContadoDetalle(control);
     }
 
@@ -113,6 +170,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         control.setIDPeriodo(Integer.parseInt(periodo));
         control.setCosto(txtPrecio.getText());
         control.setTipoPago("Contado");
+        
         control.setEstatus("Pagado");
         control.agregarPagoContado(control);
         pagoDetalleContado();
@@ -140,6 +198,14 @@ public class Pagos extends javax.swing.JInternalFrame {
         int descuento = Integer.parseInt(txtPrecio.getText())*Integer.parseInt(txtDescuento.getText())/100;
         control.setPagoTotal((Integer.parseInt(txtPrecio.getText())-descuento)+"");
         control.setEstatus("Pagado");
+        if(chkTipoDePago.isSelected()){
+            control.setTipoDePago("Pago con tarjeta");
+        }else{
+            control.setTipoDePago("Pago en efectivo");
+        }
+        control.setBanco(txtBanco.getText());
+        control.setDigitos(txtDigitos.getText());
+
         System.out.println(Integer.parseInt(txtPrecio.getText())-descuento);
         control.agregarPagoContadoDetalle(control);
     }
@@ -157,113 +223,116 @@ public class Pagos extends javax.swing.JInternalFrame {
         control.setCosto(txtPrecio.getText());
         control.setTipoPago("Contado con descuento");
         control.setEstatus("Pagado");
+        control.setDigitos(""+txtDigitos.getText());
+        control.setBanco(""+txtBanco.getText());
+
         control.agregarPagoContado(control);
         pagoDetalleContadoDescuento();
     }
+//    
+//     public void pagoContadoConSaldo() {
+//        BalPagos control = new BalPagos();
+//        control.setReferencia_P(txtReferencia.getText());
+//        control.setIDUsuario(Integer.parseInt(admin));
+//        control.setIDAlumno(Integer.parseInt(txtNoControl.getText()));
+//        Date dateI = txtFecha.getDate();
+//        long d = dateI.getTime();
+//        java.sql.Date fecha = new java.sql.Date(d);
+//        control.setFecha(fecha);
+//        control.setIDPeriodo(Integer.parseInt(periodo));
+//        control.setCosto(txtPrecio.getText());
+//        control.setTipoPago("Contado con saldo");
+//        control.setEstatus("Pagado");
+//        control.agregarPagoContado(control);
+//        pagoDetalleContadoSaldo();
+//    }
+//     
+//     public void pagoDetalleContadoSaldo() {
+//        BalPagos control = new BalPagos();
+//        BalAlumnos alumnos = new BalAlumnos();
+//        control.setReferencia_P(txtReferencia.getText());
+//        for (int x = 0; x < modelo.size(); x++) {
+//            if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
+//                control.setReferencia_S(modelo.get(x).IDServicio + "");
+//            }
+//        }
+//        control.setNota(txtNota.getText());
+//        control.setNombreServicio(cboServicios.getSelectedItem().toString());
+//        control.setMensualidad("No Aplica");
+//        Date dateI = new Date();
+//        long d = dateI.getTime();
+//        java.sql.Date fecha = new java.sql.Date(d);
+//        control.setFechaVencimiento(fecha);
+//        control.setPagoMensualidad("No aplica");
+//        control.setDescuento(""+0);
+//        int saldo = Integer.parseInt(txtSaldo.getText());
+//        int precioServicio = Integer.parseInt(txtPrecio.getText());
+////        if(precioServicio < saldo){
+////            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*precioServicio)+"");
+////            control.setPagoTotal((precioServicio)+"");
+////
+////        }else{
+////            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*saldo)+"");
+////            control.setPagoTotal((precioServicio-saldo)+"");
+////        }
+//        control.setEstatus("Pagado");
+//        control.agregarPagoContadoDetalle(control);
+//    }
+     
+//     
+//     public void pagoContadoConSaldoAndDescuento() {
+//        BalPagos control = new BalPagos();
+//        control.setReferencia_P(txtReferencia.getText());
+//        control.setIDUsuario(Integer.parseInt(admin));
+//        control.setIDAlumno(Integer.parseInt(txtNoControl.getText()));
+//        Date dateI = txtFecha.getDate();
+//        long d = dateI.getTime();
+//        java.sql.Date fecha = new java.sql.Date(d);
+//        control.setFecha(fecha);
+//        control.setIDPeriodo(Integer.parseInt(periodo));
+//        control.setCosto(txtPrecio.getText());
+//        control.setTipoPago("Contado con saldo y descuento");
+//        control.setEstatus("Pagado");
+//        control.agregarPagoContado(control);
+//        pagoDetalleContadoSaldoAndDescuento();
+//    }
     
-     public void pagoContadoConSaldo() {
-        BalPagos control = new BalPagos();
-        control.setReferencia_P(txtReferencia.getText());
-        control.setIDUsuario(Integer.parseInt(admin));
-        control.setIDAlumno(Integer.parseInt(txtNoControl.getText()));
-        Date dateI = txtFecha.getDate();
-        long d = dateI.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
-        control.setFecha(fecha);
-        control.setIDPeriodo(Integer.parseInt(periodo));
-        control.setCosto(txtPrecio.getText());
-        control.setTipoPago("Contado con saldo");
-        control.setEstatus("Pagado");
-        control.agregarPagoContado(control);
-        pagoDetalleContadoSaldo();
-    }
      
-     public void pagoDetalleContadoSaldo() {
-        BalPagos control = new BalPagos();
-        BalAlumnos alumnos = new BalAlumnos();
-        control.setReferencia_P(txtReferencia.getText());
-        for (int x = 0; x < modelo.size(); x++) {
-            if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
-                control.setReferencia_S(modelo.get(x).IDServicio + "");
-            }
-        }
-        control.setNota(txtNota.getText());
-        control.setNombreServicio(cboServicios.getSelectedItem().toString());
-        control.setMensualidad("No Aplica");
-        Date dateI = new Date();
-        long d = dateI.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
-        control.setFechaVencimiento(fecha);
-        control.setPagoMensualidad("No aplica");
-        control.setDescuento(""+0);
-        int saldo = Integer.parseInt(txtSaldo.getText());
-        int precioServicio = Integer.parseInt(txtPrecio.getText());
-        if(precioServicio < saldo){
-            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*precioServicio)+"");
-            control.setPagoTotal((precioServicio)+"");
-
-        }else{
-            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*saldo)+"");
-            control.setPagoTotal((precioServicio-saldo)+"");
-        }
-        control.setEstatus("Pagado");
-        control.agregarPagoContadoDetalle(control);
-    }
-     
-     
-     public void pagoContadoConSaldoAndDescuento() {
-        BalPagos control = new BalPagos();
-        control.setReferencia_P(txtReferencia.getText());
-        control.setIDUsuario(Integer.parseInt(admin));
-        control.setIDAlumno(Integer.parseInt(txtNoControl.getText()));
-        Date dateI = txtFecha.getDate();
-        long d = dateI.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
-        control.setFecha(fecha);
-        control.setIDPeriodo(Integer.parseInt(periodo));
-        control.setCosto(txtPrecio.getText());
-        control.setTipoPago("Contado con saldo y descuento");
-        control.setEstatus("Pagado");
-        control.agregarPagoContado(control);
-        pagoDetalleContadoSaldoAndDescuento();
-    }
-    
-     
-     public void pagoDetalleContadoSaldoAndDescuento() {
-        BalPagos control = new BalPagos();
-        BalAlumnos alumnos = new BalAlumnos();
-        control.setReferencia_P(txtReferencia.getText());
-        for (int x = 0; x < modelo.size(); x++) {
-            if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
-                control.setReferencia_S(modelo.get(x).IDServicio + "");
-            }
-        }
-        control.setNota(txtNota.getText());
-        control.setNombreServicio(cboServicios.getSelectedItem().toString());
-        control.setMensualidad("No Aplica");
-        Date dateI = new Date();
-        long d = dateI.getTime();
-        java.sql.Date fecha = new java.sql.Date(d);
-        control.setFechaVencimiento(fecha);
-        control.setPagoMensualidad("No aplica");
-        control.setDescuento(txtDescuento.getText());
-        int saldo = Integer.parseInt(txtSaldo.getText());
-        int precioServicio = Integer.parseInt(txtPrecio.getText());
-        
-        int descuento = (precioServicio*Integer.parseInt(txtDescuento.getText()))/100;
-        
-        
-        if((precioServicio-descuento) < saldo){
-            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*(precioServicio-descuento))+"");
-            control.setPagoTotal((precioServicio-descuento)+"");
-           
-        }else{
-            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), 0+"");
-            control.setPagoTotal(((precioServicio-descuento)-saldo)+"");
-        }
-        control.setEstatus("Pagado");
-        control.agregarPagoContadoDetalle(control);
-    }
+//     public void pagoDetalleContadoSaldoAndDescuento() {
+//        BalPagos control = new BalPagos();
+//        BalAlumnos alumnos = new BalAlumnos();
+//        control.setReferencia_P(txtReferencia.getText());
+//        for (int x = 0; x < modelo.size(); x++) {
+//            if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
+//                control.setReferencia_S(modelo.get(x).IDServicio + "");
+//            }
+//        }
+//        control.setNota(txtNota.getText());
+//        control.setNombreServicio(cboServicios.getSelectedItem().toString());
+//        control.setMensualidad("No Aplica");
+//        Date dateI = new Date();
+//        long d = dateI.getTime();
+//        java.sql.Date fecha = new java.sql.Date(d);
+//        control.setFechaVencimiento(fecha);
+//        control.setPagoMensualidad("No aplica");
+//        control.setDescuento(txtDescuento.getText());
+//        int saldo = Integer.parseInt(txtSaldo.getText());
+//        int precioServicio = Integer.parseInt(txtPrecio.getText());
+//        
+//        int descuento = (precioServicio*Integer.parseInt(txtDescuento.getText()))/100;
+//        
+//        
+////        if((precioServicio-descuento) < saldo){
+////            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), (-1*(precioServicio-descuento))+"");
+////            control.setPagoTotal((precioServicio-descuento)+"");
+////           
+////        }else{
+////            alumnos.asignarSaldo(Integer.parseInt(txtNoControl.getText()), 0+"");
+////            control.setPagoTotal(((precioServicio-descuento)-saldo)+"");
+////        }
+//        control.setEstatus("Pagado");
+//        control.agregarPagoContadoDetalle(control);
+//    }
      
      public void pagoMensualidad() {
         BalPagos control = new BalPagos();
@@ -397,15 +466,12 @@ public class Pagos extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         cboServicios = new javax.swing.JComboBox<>();
         txtFecha = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
-        txtSaldo = new javax.swing.JTextField();
-        chkAplicarSaldo = new javax.swing.JCheckBox();
         chkMensualidad = new javax.swing.JCheckBox();
         cboMeses = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         btnPagar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAlumnos = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -413,6 +479,13 @@ public class Pagos extends javax.swing.JInternalFrame {
         txtDescuento = new javax.swing.JTextField();
         chkDescuento = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        lblDescuento = new javax.swing.JLabel();
+        txtConDescuento = new javax.swing.JTextField();
+        txtDigitos = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        chkTipoDePago = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
+        txtBanco = new javax.swing.JTextField();
 
         setClosable(true);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -449,7 +522,7 @@ public class Pagos extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Datos del Pago:");
+        jLabel1.setText("DATOS DEL PAGO:");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -497,21 +570,6 @@ public class Pagos extends javax.swing.JInternalFrame {
 
         txtFecha.setDateFormatString("yyyy-MM-dd");
 
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Saldo:");
-
-        chkAplicarSaldo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        chkAplicarSaldo.setForeground(new java.awt.Color(255, 255, 255));
-        chkAplicarSaldo.setText("Aplicar Saldo");
-        chkAplicarSaldo.setContentAreaFilled(false);
-        chkAplicarSaldo.setFocusPainted(false);
-        chkAplicarSaldo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkAplicarSaldoActionPerformed(evt);
-            }
-        });
-
         chkMensualidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         chkMensualidad.setForeground(new java.awt.Color(255, 255, 255));
         chkMensualidad.setText("Mensualidad");
@@ -528,7 +586,7 @@ public class Pagos extends javax.swing.JInternalFrame {
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Datos del Servicio:");
+        jLabel7.setText("DATOS DEL SERVICIO:");
 
         btnPagar.setBackground(new java.awt.Color(0, 102, 204));
         btnPagar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -545,7 +603,7 @@ public class Pagos extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -556,8 +614,8 @@ public class Pagos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setRowHeight(32);
-        jScrollPane1.setViewportView(jTable1);
+        tblAlumnos.setRowHeight(32);
+        jScrollPane1.setViewportView(tblAlumnos);
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -568,6 +626,11 @@ public class Pagos extends javax.swing.JInternalFrame {
         jLabel9.setText("Nota:");
 
         txtDescuento.setEditable(false);
+        txtDescuento.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtDescuentoCaretUpdate(evt);
+            }
+        });
         txtDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDescuentoKeyPressed(evt);
@@ -600,6 +663,30 @@ public class Pagos extends javax.swing.JInternalFrame {
             }
         });
 
+        lblDescuento.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblDescuento.setForeground(new java.awt.Color(255, 255, 255));
+        lblDescuento.setText("Con descuento: ");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Ultimos 4 digitos");
+
+        chkTipoDePago.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        chkTipoDePago.setForeground(new java.awt.Color(255, 255, 255));
+        chkTipoDePago.setText("Pago con tarjeta");
+        chkTipoDePago.setOpaque(false);
+        chkTipoDePago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTipoDePagoActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Banco");
+
+        txtBanco.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -607,95 +694,131 @@ public class Pagos extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1)
-                        .addComponent(jScrollPane1)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 834, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel9))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel9))
                                     .addGap(18, 18, 18)
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel4))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel8)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                                .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(33, 33, 33)
-                            .addComponent(jLabel6)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel8)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel3)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel4))
+                                        .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel7))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtDescuento)
-                                .addComponent(cboMeses, 0, 99, Short.MAX_VALUE)
-                                .addComponent(txtSaldo))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(chkMensualidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(chkAplicarSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(chkDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addComponent(jLabel7))
-                .addContainerGap(36, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(160, 160, 160))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(27, 27, 27)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtConDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtDigitos, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(41, 41, 41)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnPagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(chkMensualidad, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(chkDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(chkTipoDePago))))))))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(chkDescuento)))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(txtNoControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(chkAplicarSaldo)))
-                .addGap(15, 15, 15)
+                            .addComponent(jLabel4))
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel7)
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(chkDescuento)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chkMensualidad)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chkTipoDePago)))
+                                .addGap(68, 68, 68)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtConDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnPagar))
+                                .addGap(22, 22, 22)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtDigitos, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(139, 139, 139)
+                                        .addComponent(jLabel6))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(92, 92, 92)
+                                        .addComponent(lblDescuento)))))
+                        .addGap(2, 2, 2)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chkMensualidad)
-                    .addComponent(cboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addComponent(jLabel7)
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cboServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPagar)
-                    .addComponent(jLabel8)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -716,18 +839,18 @@ public class Pagos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (chkMensualidad.isSelected()) {
             if(chkDescuento.isSelected()){
-                        chkDescuento.doClick();
+                chkDescuento.doClick();
             }
-            if(chkAplicarSaldo.isSelected()){
-                        chkAplicarSaldo.doClick();
+            if(chkTipoDePago.isSelected()){
+                chkTipoDePago.doClick();
             }
             cboMeses.setEnabled(true);
-            chkAplicarSaldo.setEnabled(false);
+            chkTipoDePago.setEnabled(false);
             chkDescuento.setEnabled(false);
 
         } else {
             cboMeses.setEnabled(false);
-            chkAplicarSaldo.setEnabled(true);
+            chkTipoDePago.setEnabled(true);
             chkDescuento.setEnabled(true);
 
         }
@@ -753,39 +876,40 @@ public class Pagos extends javax.swing.JInternalFrame {
         BalAlumnos alumno = new BalAlumnos();
         //pagos.validarReferencia(s);
         
-        if(!pagos.validarReferencia(txtReferencia.getText())){
-            if(alumno.isNoControlValid(Integer.parseInt(txtNoControl.getText()))){
-                if(chkAplicarSaldo.isSelected() && chkDescuento.isSelected()){
-                pagoContadoConSaldoAndDescuento();
-                generarCodigo();
-                cargarAlumnos();
-                }
-                else if(chkDescuento.isSelected()){
-                    pagoContadoConDescuento();
-                    generarCodigo();
-
-                }else if(chkAplicarSaldo.isSelected()){
-                    pagoContadoConSaldo();
-                    generarCodigo();
-                    cargarAlumnos();
-                }else if(chkMensualidad.isSelected()){
-                    pagoMensualidad();
-                    generarCodigo();
-
-                }
-                else{
-                    pagoContado();
-                    generarCodigo();
-                }
-            }else{
-                JOptionPane.showMessageDialog(null, "Numero de control no encontrado. Ingrese uno valido");
-            }
-            
+        if(txtNoControl.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Ingrese los campos faltantes");
+        }else if((txtDigitos.getText().length()<4 || txtBanco.getText().equals("")) && chkTipoDePago.isSelected()){
+                        JOptionPane.showMessageDialog(null, "Ingrese los datos faltantes de la tarjeta");
         }else{
-            JOptionPane.showMessageDialog(null, "Referencia existente, generando nueva referencia intente otra vez");
-            generarCodigo();
+            if(!pagos.validarReferencia(txtReferencia.getText())){
+                if(alumno.isNoControlValid(Integer.parseInt(txtNoControl.getText()))){
+    //                if(chkAplicarSaldo.isSelected() && chkDescuento.isSelected()){
+    //                pagoContadoConSaldoAndDescuento();
+    //                generarCodigo();
+    //                cargarAlumnos();
+    //                }
+                    if(chkDescuento.isSelected()){
+                        pagoContadoConDescuento();
+                        generarCodigo();
+                    }
+                    else if(chkMensualidad.isSelected()){
+                        pagoMensualidad();
+                        generarCodigo();
+
+                    }
+                    else{
+                        pagoContado();
+                        generarCodigo();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Numero de control no encontrado. Ingrese uno valido");
+                }
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Referencia existente, generando nueva referencia intente otra vez");
+                generarCodigo();
+            }
         }
-        
         
     }//GEN-LAST:event_btnPagarActionPerformed
 
@@ -794,24 +918,23 @@ public class Pagos extends javax.swing.JInternalFrame {
         for (int x = 0; x < modelo.size(); x++) {
             if(cboServicios.getSelectedItem().toString().equals(modelo.get(x).NombreServicio)){
                 txtPrecio.setText(modelo.get(x).CostoServicio + "");
+                if(chkDescuento.isSelected()){
+                    txtConDescuento.setText((Integer.parseInt(txtPrecio.getText())-((Integer.parseInt(txtPrecio.getText())*Integer.parseInt(txtDescuento.getText()))/100))+"");
+                }else{
+                    txtConDescuento.setText(txtPrecio.getText());
+                }
             }
         }
     }//GEN-LAST:event_cboServiciosItemStateChanged
-
-    private void chkAplicarSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAplicarSaldoActionPerformed
-        // TODO add your handling code here:
-        if(txtSaldo.getText().equals("0")){
-            JOptionPane.showMessageDialog(null, "No tienes saldo suficiente para aplicar");
-            chkAplicarSaldo.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkAplicarSaldoActionPerformed
 
     private void chkDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDescuentoActionPerformed
         // TODO add your handling code here:
         if (chkDescuento.isSelected()) {
             txtDescuento.setEditable(true);
+            txtConDescuento.setText((Integer.parseInt(txtPrecio.getText())-((Integer.parseInt(txtPrecio.getText())*Integer.parseInt(txtDescuento.getText()))/100))+"");
         } else {
             txtDescuento.setEditable(false);
+            txtConDescuento.setText(txtPrecio.getText());
         }
     }//GEN-LAST:event_chkDescuentoActionPerformed
 
@@ -820,7 +943,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         txtNoControl.setText("");
         txtDescuento.setText("");
         txtNota.setText("");
-        txtSaldo.setText("");
+        //txtSaldo.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtNoControlKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoControlKeyPressed
@@ -832,16 +955,16 @@ public class Pagos extends javax.swing.JInternalFrame {
 
     private void txtNoControlCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNoControlCaretUpdate
         // TODO add your handling code here:
-        String valor = txtNoControl.getText();
-        if (valor.isEmpty()) {
-            txtNoControl.setText(null);
-        } else {
-           for(int i=0;i<modeloAlumnos.size();i++){
-               if((modeloAlumnos.get(i).NoControl+"").equals(valor)){
-                   txtSaldo.setText(modeloAlumnos.get(i).Saldo);
-               }
-           }
-        }
+//        String valor = txtNoControl.getText();
+//        if (valor.isEmpty()) {
+//            txtNoControl.setText(null);
+//        } else {
+//           for(int i=0;i<modeloAlumnos.size();i++){
+//               if((modeloAlumnos.get(i).NoControl+"").equals(valor)){
+//                   txtSaldo.setText(modeloAlumnos.get(i).CodigoPostal);
+//               }
+//           }
+//        }
     }//GEN-LAST:event_txtNoControlCaretUpdate
 
     private void formComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_formComponentRemoved
@@ -902,16 +1025,40 @@ public class Pagos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtDescuentoKeyPressed
 
+    private void txtDescuentoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtDescuentoCaretUpdate
+        // TODO add your handling code here:
+        if(!txtPrecio.getText().isEmpty() && !txtDescuento.getText().isEmpty()){
+            txtConDescuento.setText(((Integer.parseInt(txtPrecio.getText())-((Integer.parseInt(txtPrecio.getText())*Integer.parseInt(txtDescuento.getText()))/100))+""));
+        }else{
+           txtConDescuento.setText(txtPrecio.getText());
+        }
+    }//GEN-LAST:event_txtDescuentoCaretUpdate
+
+    private void chkTipoDePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTipoDePagoActionPerformed
+        // TODO add your handling code here:
+        if(chkTipoDePago.isSelected()){
+            txtDigitos.setEnabled(true);
+            txtBanco.setEnabled(true);
+        }else{
+            txtDigitos.setEnabled(false);
+            txtBanco.setEnabled(false);
+            txtBanco.setText("");
+            txtDigitos.setText("");
+        }
+
+    }//GEN-LAST:event_chkTipoDePagoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPagar;
     private javax.swing.JComboBox<String> cboMeses;
     private javax.swing.JComboBox<String> cboServicios;
-    private javax.swing.JCheckBox chkAplicarSaldo;
     private javax.swing.JCheckBox chkDescuento;
     private javax.swing.JCheckBox chkMensualidad;
+    private javax.swing.JCheckBox chkTipoDePago;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -922,14 +1069,17 @@ public class Pagos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblDescuento;
+    private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtBanco;
+    private javax.swing.JTextField txtConDescuento;
     private javax.swing.JTextField txtDescuento;
+    private javax.swing.JTextField txtDigitos;
     private com.toedter.calendar.JDateChooser txtFecha;
     private javax.swing.JTextField txtNoControl;
     private javax.swing.JTextField txtNota;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtReferencia;
-    private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 
     
