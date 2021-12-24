@@ -617,6 +617,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         viewPagos.setAdmin(lblidAdmin.getText());
         viewPagos.setPeriodo(lblidPeriodo.getText());
+        viewPagos.setTipoAdmin(lblTipoUsuario.getText());
         if (!viewPagos.isShowing()) {
             escritorio.add(viewPagos);
             viewPagos.show();

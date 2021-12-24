@@ -268,7 +268,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         txtCodigoPostal = new javax.swing.JTextField();
         cboEstatus = new javax.swing.JComboBox<>();
-        btnAsignarU = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         cboSemestreL = new javax.swing.JComboBox<>();
@@ -403,8 +402,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         cboAcciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Modificar", "Eliminar" }));
         cboAcciones.setRequestFocusEnabled(false);
 
-        btnLimpiar.setBackground(new java.awt.Color(155, 155, 155));
+        btnLimpiar.setBackground(new java.awt.Color(232, 59, 45));
         btnLimpiar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorderPainted(false);
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -415,8 +415,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEjecutar.setBackground(new java.awt.Color(153, 153, 153));
+        btnEjecutar.setBackground(new java.awt.Color(0, 153, 255));
         btnEjecutar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnEjecutar.setForeground(new java.awt.Color(255, 255, 255));
         btnEjecutar.setText("Ejecutar");
         btnEjecutar.setBorderPainted(false);
         btnEjecutar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -427,8 +428,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBuscarAlumno.setBackground(new java.awt.Color(153, 153, 153));
+        btnBuscarAlumno.setBackground(new java.awt.Color(0, 153, 255));
         btnBuscarAlumno.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBuscarAlumno.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarAlumno.setText("Search");
         btnBuscarAlumno.setBorderPainted(false);
         btnBuscarAlumno.addActionListener(new java.awt.event.ActionListener() {
@@ -685,18 +687,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        btnAsignarU.setBackground(new java.awt.Color(153, 153, 153));
-        btnAsignarU.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnAsignarU.setText("Asignar Usuario");
-        btnAsignarU.setBorderPainted(false);
-        btnAsignarU.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAsignarU.setRequestFocusEnabled(false);
-        btnAsignarU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsignarUActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -706,9 +696,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAsignarU)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
@@ -718,9 +706,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(btnAsignarU, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -770,8 +756,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tblAlumnos);
 
-        btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
+        btnBuscar.setBackground(new java.awt.Color(0, 153, 255));
         btnBuscar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
         btnBuscar.setBorderPainted(false);
         btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -782,8 +769,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnPendientes.setBackground(new java.awt.Color(153, 153, 153));
+        btnPendientes.setBackground(new java.awt.Color(204, 153, 0));
         btnPendientes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnPendientes.setForeground(new java.awt.Color(255, 255, 255));
         btnPendientes.setText("Pendientes");
         btnPendientes.setBorderPainted(false);
         btnPendientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -794,8 +782,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBajas.setBackground(new java.awt.Color(153, 153, 153));
+        btnBajas.setBackground(new java.awt.Color(232, 59, 45));
         btnBajas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBajas.setForeground(new java.awt.Color(255, 255, 255));
         btnBajas.setText("Inactivos");
         btnBajas.setBorderPainted(false);
         btnBajas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -806,8 +795,9 @@ public class Alumnos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnActivos.setBackground(new java.awt.Color(153, 153, 153));
+        btnActivos.setBackground(new java.awt.Color(0, 204, 51));
         btnActivos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnActivos.setForeground(new java.awt.Color(255, 255, 255));
         btnActivos.setText("Activos");
         btnActivos.setBorderPainted(false);
         btnActivos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -923,16 +913,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private void txtCodigoPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoPostalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoPostalActionPerformed
-
-    private void btnAsignarUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarUActionPerformed
-        // TODO add your handling code here:
-        if (txtNoControl.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "No seleccionaste alumno");
-        } else {
-            Modales modalv = new Modales();
-            modalv.modalUsuario(txtNoControl.getText());
-        }
-    }//GEN-LAST:event_btnAsignarUActionPerformed
 
     private void btnActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivosActionPerformed
         model.setNumRows(0);
@@ -1226,7 +1206,6 @@ public class Alumnos extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivos;
-    private javax.swing.JButton btnAsignarU;
     private javax.swing.JButton btnBajas;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarAlumno;

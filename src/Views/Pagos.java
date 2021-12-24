@@ -30,6 +30,7 @@ public class Pagos extends javax.swing.JInternalFrame {
      */
     String admin;
     String periodo;
+    String TipoAdmin;
     ArrayList<BalServicios> modelo;
     ArrayList<BalAlumnos> modeloAlumnos;
 
@@ -39,6 +40,10 @@ public class Pagos extends javax.swing.JInternalFrame {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+    
+     public void setTipoAdmin(String TipoAdmin) {
+        this.TipoAdmin = TipoAdmin;
     }
 
     public Pagos() {
@@ -55,7 +60,6 @@ public class Pagos extends javax.swing.JInternalFrame {
         txtDigitos.setEnabled(false);
         txtBanco.setEnabled(false);
         tblAlumnos.setAutoCreateRowSorter(true);
-
     }
     
     javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel() {
@@ -486,6 +490,7 @@ public class Pagos extends javax.swing.JInternalFrame {
         chkTipoDePago = new javax.swing.JCheckBox();
         jLabel10 = new javax.swing.JLabel();
         txtBanco = new javax.swing.JTextField();
+        chkPagoTrasnferencia = new javax.swing.JCheckBox();
 
         setClosable(true);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -687,6 +692,16 @@ public class Pagos extends javax.swing.JInternalFrame {
 
         txtBanco.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        chkPagoTrasnferencia.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        chkPagoTrasnferencia.setForeground(new java.awt.Color(255, 255, 255));
+        chkPagoTrasnferencia.setText("Transferencia");
+        chkPagoTrasnferencia.setOpaque(false);
+        chkPagoTrasnferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPagoTrasnferenciaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -749,7 +764,8 @@ public class Pagos extends javax.swing.JInternalFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(chkMensualidad, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(chkDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(chkTipoDePago))))))))
+                                            .addComponent(chkTipoDePago)
+                                            .addComponent(chkPagoTrasnferencia))))))))
                 .addContainerGap(209, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -792,7 +808,9 @@ public class Pagos extends javax.swing.JInternalFrame {
                                         .addComponent(chkMensualidad)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(chkTipoDePago)))
-                                .addGap(68, 68, 68)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chkPagoTrasnferencia)
+                                .addGap(45, 45, 45)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtConDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnPagar))
@@ -812,13 +830,12 @@ public class Pagos extends javax.swing.JInternalFrame {
                                         .addGap(92, 92, 92)
                                         .addComponent(lblDescuento)))))
                         .addGap(2, 2, 2)))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -859,6 +876,10 @@ public class Pagos extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         // TODO add your handling code here:
         generarCodigo();
+        //System.out.println(TipoAdmin);
+        if(!TipoAdmin.equals("Administrador")){
+            chkPagoTrasnferencia.setVisible(false);
+        }
         cargarServicios();
         cargarAlumnos();
     }//GEN-LAST:event_formInternalFrameOpened
@@ -978,8 +999,7 @@ public class Pagos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        // TODO add your handling code here:
-        System.out.println("askjhd ajkshdjkasd ");
+        // TODO add your handling code here
         
     }//GEN-LAST:event_formMouseEntered
 
@@ -1048,6 +1068,10 @@ public class Pagos extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_chkTipoDePagoActionPerformed
 
+    private void chkPagoTrasnferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPagoTrasnferenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkPagoTrasnferenciaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPagar;
@@ -1055,6 +1079,7 @@ public class Pagos extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboServicios;
     private javax.swing.JCheckBox chkDescuento;
     private javax.swing.JCheckBox chkMensualidad;
+    private javax.swing.JCheckBox chkPagoTrasnferencia;
     private javax.swing.JCheckBox chkTipoDePago;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
